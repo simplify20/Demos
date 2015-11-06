@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.example.yjj.rxdemo.R;
 import com.example.yjj.rxdemo.rxbind.interactor.LoadMoreService;
+import com.example.yjj.rxdemo.util.ToastUtil;
 import com.jakewharton.rxbinding.support.v4.widget.RxSwipeRefreshLayout;
 
 import java.util.List;
@@ -41,6 +42,7 @@ public class RxSwipeRefreshLayoutTestActivity extends AppCompatActivity {
             @Override
             public void call(List<String> list) {
                 swipeRefreshLayout.setRefreshing(false);
+                ToastUtil.toastShortMsg("refresh completed! new data is:" + list);
                 System.out.println(list);
             }
         };

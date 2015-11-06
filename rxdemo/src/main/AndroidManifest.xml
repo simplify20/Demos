@@ -10,22 +10,24 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
+            android:label="@string/app_name"></activity>
+        <activity
+            android:name=".lifecycle.RxLifecycleActivity"
+            android:label="LifeCycle">
 
-            <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
         </activity>
-        <activity android:name=".lifecycle.RxLifecycleActivity"></activity>
-        <activity android:name=".rxbind.RxBindActivity"></activity>
-        <activity android:name=".rxbind.RxSwipeRefreshLayoutTestActivity">
+        <activity
+            android:name=".rxbind.RxBindActivity"
+            android:label="RxBinding">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".rxbind.RxSwipeRefreshLayoutTestActivity"
+            android:label="SwipeRefresh"></activity>
     </application>
 
 </manifest>

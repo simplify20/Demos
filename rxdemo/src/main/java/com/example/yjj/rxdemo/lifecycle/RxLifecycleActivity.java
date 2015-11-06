@@ -18,7 +18,7 @@ import rx.functions.Action1;
  * @email:yangjianjun@117go.com
  */
 public class RxLifecycleActivity extends LifecycleActivity {
-    private static final String TAG = "RRxLifecycleActivity";
+    private static final String TAG = "RxLifecycleActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
