@@ -3,10 +3,8 @@ package com.example.yjj.rxdemo.rxbind;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ScrollView;
 
+import com.example.yjj.rxdemo.R;
 import com.example.yjj.rxdemo.rxbind.interactor.LoadMoreService;
 import com.jakewharton.rxbinding.support.v4.widget.RxSwipeRefreshLayout;
 
@@ -17,8 +15,6 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
-
-import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
 /**
  * @author:YJJ
@@ -32,9 +28,8 @@ public class RxSwipeRefreshLayoutTestActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_swipe_refresh);
         initView();
-        setContentView(swipeRefreshLayout);
-
         loadMoreService = new LoadMoreService<String>() {
             @Override
             public Observable<String> loadMore() {
@@ -64,14 +59,6 @@ public class RxSwipeRefreshLayoutTestActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        swipeRefreshLayout = new SwipeRefreshLayout(this);
-
-        ScrollView scrollView = new ScrollView(this);
-        ViewGroup.LayoutParams scrollParams = new ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT);
-        swipeRefreshLayout.addView(scrollView, scrollParams);
-
-        FrameLayout emptyView = new FrameLayout(this);
-        ViewGroup.LayoutParams emptyParams = new ViewGroup.LayoutParams(MATCH_PARENT, 100000);
-        scrollView.addView(emptyView, emptyParams);
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe);
     }
 }
