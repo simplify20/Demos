@@ -4,13 +4,13 @@ import android.app.Activity;
 import android.app.Instrumentation;
 import android.support.v4.widget.DrawerLayout;
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.UiThreadTest;
 import android.widget.RelativeLayout;
 
 import com.example.yjj.rxdemo.R;
 import com.example.yjj.rxdemo.rxbind.RxBindActivity;
 import com.jakewharton.rxbinding.support.v4.widget.RxDrawerLayout;
 
-import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 
 import static android.view.Gravity.RIGHT;
@@ -40,28 +40,18 @@ public class RxDrawerTest extends ActivityInstrumentationTestCase2<RxBindActivit
         instrumentation = getInstrumentation();
     }
 
+    //can't work ,see RxBindingActivity.java
+    @UiThreadTest
     public void testDrawerOpen() throws Exception {
 
         RxDrawerLayout.drawerOpen(drawerLayout, RIGHT)
-                .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Boolean>() {
                     @Override
                     public void call(Boolean aBoolean) {
                         println(aBoolean ? "opened" : "closed");
                     }
                 });
-
-        instrumentation.runOnMainSync(new Runnable() {
-            @Override
-            public void run() {
-                drawerLayout.openDrawer(RIGHT);
-            }
-        });
-        instrumentation.runOnMainSync(new Runnable() {
-            @Override
-            public void run() {
-                drawerLayout.closeDrawer(RIGHT);
-            }
-        });
+        drawerLayout.openDrawer(RIGHT);
+        drawerLayout.closeDrawer(RIGHT);
     }
 }

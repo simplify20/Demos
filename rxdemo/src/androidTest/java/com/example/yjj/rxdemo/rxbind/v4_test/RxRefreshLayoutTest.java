@@ -36,6 +36,7 @@ public class RxRefreshLayoutTest extends ActivityInstrumentationTestCase2<RxSwip
         instrumentation = getInstrumentation();
     }
 
+    //can't work,see RxBindingActivity.java
     public void testRefresh() throws Exception {
 
         RxSwipeRefreshLayout.refreshes(swipeRefreshLayout)
