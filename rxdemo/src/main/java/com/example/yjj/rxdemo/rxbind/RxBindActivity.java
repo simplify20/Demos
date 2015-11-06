@@ -39,8 +39,9 @@ public class RxBindActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private RelativeLayout drawerContainer;
     private static int i;
-    private boolean isFirst = true;
-
+    private boolean drawerInit = true;
+    private boolean txtInit = true;
+    private boolean pagerInit = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,8 +64,8 @@ public class RxBindActivity extends AppCompatActivity {
                 .subscribe(new Action1<Integer>() {
                     @Override
                     public void call(Integer integer) {
-                        if (isFirst) {
-                            isFirst = false;
+                        if (pagerInit) {
+                            pagerInit = false;
                             return;
                         }
                         ToastUtil.toastShortMsg(integer == 0 ? "已到第一张" : "已是最后一张");
@@ -75,8 +76,8 @@ public class RxBindActivity extends AppCompatActivity {
                 .subscribe(new Action1<Boolean>() {
                     @Override
                     public void call(Boolean aBoolean) {
-                        if (isFirst) {
-                            isFirst = false;
+                        if (drawerInit) {
+                            drawerInit = false;
                             return;
                         }
                         ToastUtil.toastShortMsg(aBoolean ? "drawer opened" : "drawer closed");
@@ -87,8 +88,8 @@ public class RxBindActivity extends AppCompatActivity {
                 .subscribe(new Action1<CharSequence>() {
                     @Override
                     public void call(CharSequence charSequence) {
-                        if (isFirst) {
-                            isFirst = false;
+                        if (txtInit) {
+                            txtInit = false;
                             return;
                         }
                         ToastUtil.toastShortMsg("text changed new text is " + charSequence);
