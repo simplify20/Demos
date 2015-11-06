@@ -9,6 +9,8 @@ import com.trello.rxlifecycle.ActivityEvent;
 import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
+import rx.functions.Action0;
+import rx.functions.Action1;
 
 /**
  * @author:YJJ
@@ -28,10 +30,18 @@ public class RxLifecycleActivity extends LifecycleActivity {
 
         // Specifically bind this until onPause()
         Observable.interval(1, TimeUnit.SECONDS)
-                .doOnUnsubscribe(() -> Log.i(TAG, "Unsubscribing subscription from onCreate()"))
+                .doOnUnsubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        Log.i(TAG, "Unsubscribing subscription from onCreate()");
+                    }
+                })
                 .compose(this.<Long>bindUntilEvent(ActivityEvent.PAUSE))
-                .subscribe(num -> {
-                    Log.i(TAG, "Started in onCreate(), running until onPause(): " + num);
+                .subscribe(new Action1<Long>() {
+                    @Override
+                    public void call(Long num) {
+                        Log.i(TAG, "Started in onCreate(), running until onPause(): " + num);
+                    }
                 });
     }
 

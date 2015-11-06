@@ -11,8 +11,10 @@ import com.example.yjj.rxdemo.rxbind.RxBindActivity;
 import com.jakewharton.rxbinding.support.v4.widget.RxDrawerLayout;
 
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 
 import static android.view.Gravity.RIGHT;
+import static com.example.yjj.rxdemo.util.PrintUtil.println;
 
 /**
  * @author:YJJ
@@ -42,9 +44,24 @@ public class RxDrawerTest extends ActivityInstrumentationTestCase2<RxBindActivit
 
         RxDrawerLayout.drawerOpen(drawerLayout, RIGHT)
                 .subscribeOn(AndroidSchedulers.mainThread())
-                .subscribe(aBoolean -> System.out.println(aBoolean ? "opened" : "closed"));
+                .subscribe(new Action1<Boolean>() {
+                    @Override
+                    public void call(Boolean aBoolean) {
+                        println(aBoolean ? "opened" : "closed");
+                    }
+                });
 
-        instrumentation.runOnMainSync(() -> drawerLayout.openDrawer(RIGHT));
-        instrumentation.runOnMainSync(() -> drawerLayout.closeDrawer(RIGHT));
+        instrumentation.runOnMainSync(new Runnable() {
+            @Override
+            public void run() {
+                drawerLayout.openDrawer(RIGHT);
+            }
+        });
+        instrumentation.runOnMainSync(new Runnable() {
+            @Override
+            public void run() {
+                drawerLayout.closeDrawer(RIGHT);
+            }
+        });
     }
 }

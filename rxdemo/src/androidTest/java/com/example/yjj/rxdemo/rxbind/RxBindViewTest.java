@@ -6,10 +6,18 @@ import android.os.Build;
 import android.test.InstrumentationTestCase;
 import android.test.UiThreadTest;
 import android.test.suitebuilder.annotation.SmallTest;
+import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.example.yjj.rxdemo.rxbind.bean.User;
+import com.example.yjj.rxdemo.rxbind.interactor.GetWordsService;
+import com.example.yjj.rxdemo.rxbind.interactor.LoginService;
 import com.jakewharton.rxbinding.view.RxView;
+
+import java.util.List;
 
 import rx.Observable;
 import rx.Subscription;
@@ -21,6 +29,7 @@ import static android.view.MotionEvent.ACTION_DOWN;
 import static android.view.MotionEvent.ACTION_MOVE;
 import static android.view.MotionEvent.ACTION_UP;
 import static com.example.yjj.rxdemo.rxbind.util.MotionEventUtil.motionEventAtPosition;
+import static com.example.yjj.rxdemo.util.PrintUtil.println;
 
 
 /**
@@ -46,7 +55,12 @@ public class RxBindViewTest extends InstrumentationTestCase {
     @UiThreadTest
     @SmallTest
     public void testClicks() throws Exception {
-        RxView.clicks(view).subscribe(aVoid -> System.out.println(view + " is clicked"));
+        RxView.clicks(view).subscribe(new Action1<Void>() {
+            @Override
+            public void call(Void aVoid) {
+                println(view + " is clicked");
+            }
+        });
         view.performClick();
         view.performClick();
     }
@@ -55,8 +69,18 @@ public class RxBindViewTest extends InstrumentationTestCase {
     @UiThreadTest
     public void testTouches() {
         Subscription subscription = RxView.touches(view)
-                .filter(motionEvent -> motionEvent.getAction() == ACTION_DOWN)
-                .subscribe(System.out::println);
+                .filter(new Func1<MotionEvent, Boolean>() {
+                    @Override
+                    public Boolean call(MotionEvent motionEvent) {
+                        return motionEvent.getAction() == ACTION_DOWN;
+                    }
+                })
+                .subscribe(new Action1<MotionEvent>() {
+                    @Override
+                    public void call(MotionEvent motionEvent) {
+                        println(motionEvent);
+                    }
+                });
 
         view.dispatchTouchEvent(motionEventAtPosition(view, ACTION_DOWN, 0, 50));
         view.dispatchTouchEvent(motionEventAtPosition(view, ACTION_MOVE, 1, 50));
@@ -74,7 +98,12 @@ public class RxBindViewTest extends InstrumentationTestCase {
     @SmallTest
     public void testDraws() throws Exception {
 
-        RxView.draws(view).subscribe(aVoid -> System.out.println(view + " is draw"));
+        RxView.draws(view).subscribe(new Action1<Void>() {
+            @Override
+            public void call(Void aVoid) {
+                println(view + " is draw");
+            }
+        });
         view.getViewTreeObserver().dispatchOnDraw();
     }
 
@@ -87,7 +116,12 @@ public class RxBindViewTest extends InstrumentationTestCase {
 
         view.setFocusable(true);
 
-        Subscription subscription = RxView.focusChanges(view).subscribe(System.out::println);
+        Subscription subscription = RxView.focusChanges(view).subscribe(new Action1<Boolean>() {
+            @Override
+            public void call(Boolean hasFocused) {
+                println(hasFocused);
+            }
+        });
 
         view.requestFocus();//output:true
         view.clearFocus();//output:false
@@ -98,7 +132,12 @@ public class RxBindViewTest extends InstrumentationTestCase {
     @UiThreadTest
     @SmallTest
     public void testGlobalLayouts() throws Exception {
-        Subscription subscription = RxView.globalLayouts(view).subscribe(aVoid -> System.out.println("global layout"));
+        Subscription subscription = RxView.globalLayouts(view).subscribe(new Action1<Void>() {
+            @Override
+            public void call(Void aVoid) {
+                println("global layout");
+            }
+        });
 
         view.getViewTreeObserver().dispatchOnGlobalLayout();
         subscription.unsubscribe();
@@ -108,7 +147,12 @@ public class RxBindViewTest extends InstrumentationTestCase {
     @SmallTest
     @UiThreadTest
     public void testLayoutChanges() {
-        Subscription subscription = RxView.layoutChanges(view).subscribe(aVoid -> System.out.println("layout changes"));
+        Subscription subscription = RxView.layoutChanges(view).subscribe(new Action1<Void>() {
+            @Override
+            public void call(Void aVoid) {
+                println(aVoid);
+            }
+        });
 
         view.layout(view.getLeft() - 5, view.getTop() - 5, view.getRight(), view.getBottom());
 
@@ -118,22 +162,90 @@ public class RxBindViewTest extends InstrumentationTestCase {
         view.layout(view.getLeft() - 5, view.getTop() - 5, view.getRight(), view.getBottom());
     }
 
+
+    @SmallTest
+    @UiThreadTest
+    public void testVisibility() throws Exception {
+
+        GetWordsService service = new GetWordsService() {
+            @Override
+            public Observable<String> getWords() {
+                return Observable.just("1131334");
+            }
+        };
+
+        service.getWords()
+                .map(new Func1<String, Boolean>() {
+                    @Override
+                    public Boolean call(String s) {
+                        return !TextUtils.isEmpty(s);
+                    }
+                })
+                .subscribe(new Action1<Boolean>() {
+                    @Override
+                    public void call(Boolean aBoolean) {
+                        RxView.visibility(view).call(aBoolean);
+                    }
+                });
+        assertEquals(View.VISIBLE, view.getVisibility());
+    }
+
+    @UiThreadTest
+    @SmallTest
+    public void testEnabled() throws Exception {
+        final Button loginBtn = new Button(context);
+        final LoginService<User> loginService = new LoginService<User>() {
+            @Override
+            public Observable<User> login(String account, String psd) {
+                return Observable.just(new User("yangjianjun", 23));
+            }
+        };
+        RxView.clicks(loginBtn)
+                .doOnNext(new Action1<Void>() {
+                    @Override
+                    public void call(Void aVoid) {
+                        loginService.login("1234456", "ssddsds");
+                    }
+                })
+                .map(new Func1<Void, Boolean>() {
+                    @Override
+                    public Boolean call(Void aVoid) {
+                        return false;
+                    }
+                })
+                .subscribe(new Action1<Boolean>() {
+                    @Override
+                    public void call(Boolean enabled) {
+                        RxView.enabled(loginBtn).call(enabled);
+                    }
+                });
+        loginBtn.performClick();
+        assertEquals(true, loginBtn.isEnabled());
+
+    }
+
+
     public void testGroupBy() throws Exception {
 
         Observable.just(1, 7, 2, 2, 3, 4, 5)
-                .groupBy(new Func1<Integer, Object>() {
+                .groupBy(new Func1<Integer, String>() {
                     @Override
-                    public Object call(Integer integer) {
+                    public String call(Integer integer) {
                         if (integer < 3)
                             return "<3";
                         else
                             return ">=3";
                     }
                 })
-                .subscribe(new Action1<GroupedObservable<Object, Integer>>() {
+                .subscribe(new Action1<GroupedObservable<String, Integer>>() {
                     @Override
-                    public void call(GroupedObservable<Object, Integer> groupedObservable) {
-                        groupedObservable.subscribe(integer -> System.out.println(groupedObservable.getKey() + ":" + integer));
+                    public void call(final GroupedObservable<String, Integer> groupedObservable) {
+                        groupedObservable.toList().subscribe(new Action1<List<Integer>>() {
+                            @Override
+                            public void call(List<Integer> integers) {
+                                System.out.println(groupedObservable.getKey() + ":" + integers);
+                            }
+                        });
                     }
                 });
 

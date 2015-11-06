@@ -1,6 +1,7 @@
 package com.example.yjj.demoproj;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.example.yjj.demoproj.dagger2.ApplicationComponent;
 import com.example.yjj.demoproj.dagger2.ApplicationModule;
@@ -14,6 +15,7 @@ import com.example.yjj.demoproj.dagger2.DaggerApplicationComponent;
 public class TestApplication extends Application {
 
     private ApplicationComponent mComponent;
+    private static Context context;
 
     @Override
     public void onCreate() {
@@ -21,9 +23,14 @@ public class TestApplication extends Application {
         mComponent = DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(this))
                 .build();
+        context = getApplicationContext();
     }
 
     public ApplicationComponent getComponent() {
         return mComponent;
+    }
+
+    public static Context getContext() {
+        return context;
     }
 }

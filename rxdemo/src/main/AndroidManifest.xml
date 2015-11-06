@@ -18,7 +18,8 @@
             <!--</intent-filter>-->
         </activity>
         <activity android:name=".lifecycle.RxLifecycleActivity"></activity>
-        <activity android:name=".rxbind.RxBindActivity">
+        <activity android:name=".rxbind.RxBindActivity"></activity>
+        <activity android:name=".rxbind.RxSwipeRefreshLayoutTestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -12,9 +12,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String STRING_PAYLOAD = "sddfsdf";
-    private TextView mHello;
+    @Bind(R.id.text_hello)
+    TextView mHello;
     private EditText mEdit;
     private Button mButton;
     private Button mNext;
@@ -29,12 +33,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_main);
 
+        ButterKnife.bind(this);
+
         mKeyguard = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
         mKeylock = mKeyguard.newKeyguardLock("");
         mKeylock.disableKeyguard();
 
         mButton = (Button) findViewById(R.id.button);
-        mHello = (TextView) findViewById(R.id.text_hello);
         mNext = (Button) findViewById(R.id.launch_next);
         mSendNext = (Button) findViewById(R.id.send_next);
         mEdit = (EditText) findViewById(R.id.edit_text);

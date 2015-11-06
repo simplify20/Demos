@@ -1,4 +1,4 @@
-package com.example.yjj.rxdemo;
+package com.example.yjj.android_test;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

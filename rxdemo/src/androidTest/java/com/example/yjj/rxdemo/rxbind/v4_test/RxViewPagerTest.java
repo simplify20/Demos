@@ -9,6 +9,10 @@ import com.example.yjj.rxdemo.R;
 import com.example.yjj.rxdemo.rxbind.RxBindActivity;
 import com.jakewharton.rxbinding.support.v4.view.RxViewPager;
 
+import rx.functions.Action1;
+
+import static com.example.yjj.rxdemo.util.PrintUtil.println;
+
 /**
  * @author:YJJ
  * @date:2015/11/4
@@ -33,7 +37,12 @@ public class RxViewPagerTest extends ActivityInstrumentationTestCase2<RxBindActi
     public void testPageSelections() throws Exception {
 
         RxViewPager.pageSelections(viewPager)
-                .subscribe(System.out::println);
+                .subscribe(new Action1<Integer>() {
+                    @Override
+                    public void call(Integer integer) {
+                        println(integer);
+                    }
+                });
         viewPager.setCurrentItem(2);
     }
 }

@@ -19,8 +19,11 @@ import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
 
 import static android.view.Gravity.RIGHT;
+import static com.example.yjj.rxdemo.util.PrintUtil.println;
 
 /**
  * @author:YJJ
@@ -45,17 +48,42 @@ public class RxBindActivity extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         viewPager.setAdapter(new PageAdapter(getSupportFragmentManager()));
         RxViewPager.pageSelections(viewPager)
-                .filter(integer -> integer == viewPager.getAdapter().getCount() - 1 || integer == 0)
+                .filter(new Func1<Integer, Boolean>() {
+                    @Override
+                    public Boolean call(Integer integer) {
+                        return integer == viewPager.getAdapter().getCount() - 1 || integer == 0;
+                    }
+                })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(integer1 -> ToastUtil.toastShortMsg(integer1 == 0 ? "已到第一张" : "已是最后一张"));
+                .subscribe(new Action1<Integer>() {
+                    @Override
+                    public void call(Integer integer) {
+                        ToastUtil.toastShortMsg(integer == 0 ? "已到第一张" : "已是最后一张");
+                    }
+                });
 
         RxDrawerLayout.drawerOpen(drawerLayout, RIGHT)
-                .subscribe(aBoolean -> System.out.println(aBoolean ? "opened" : "closed"));
+                .subscribe(new Action1<Boolean>() {
+                    @Override
+                    public void call(Boolean aBoolean) {
+                        println(aBoolean ? "opened" : "closed");
+                    }
+                });
 
         RxTextView.textChanges(textView)
-                .subscribe(System.out::println);
+                .subscribe(new Action1<CharSequence>() {
+                    @Override
+                    public void call(CharSequence charSequence) {
+                        println(charSequence);
+                    }
+                });
 
-        RxView.clicks(btn).subscribe(aVoid -> textView.setText("hello,bob"));
+        RxView.clicks(btn).subscribe(new Action1<Void>() {
+            @Override
+            public void call(Void aVoid) {
+                textView.setText("hello,bob");
+            }
+        });
 
     }
 

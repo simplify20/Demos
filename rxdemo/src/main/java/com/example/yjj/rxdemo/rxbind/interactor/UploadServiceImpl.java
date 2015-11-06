@@ -1,4 +1,4 @@
-package com.example.yjj.rxdemo.rxbind.util;
+package com.example.yjj.rxdemo.rxbind.interactor;
 
 import rx.Observable;
 

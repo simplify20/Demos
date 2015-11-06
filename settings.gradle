@@ -1,1 +1,1 @@
-include ':app', ':dagger_mvp', ':rxdemo'
+include ':rxdemo'
