@@ -45,6 +45,7 @@ public class RxLifecycleActivity extends LifecycleActivity {
                 });
     }
 
+
     @Override
     protected void onStart() {
         super.onStart();

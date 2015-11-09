@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import com.example.yjj.rxdemo.R;
 import com.example.yjj.rxdemo.lifecycle.RxLifecycleActivity;
+import com.example.yjj.rxdemo.rxbind.mvp.view.LoginActivity;
+import com.example.yjj.rxdemo.rxbind.mvp.view.RefreshActivity;
 import com.example.yjj.rxdemo.util.ToastUtil;
 import com.jakewharton.rxbinding.support.v4.view.RxViewPager;
 import com.jakewharton.rxbinding.support.v4.widget.RxDrawerLayout;
@@ -42,6 +44,7 @@ public class RxBindActivity extends AppCompatActivity {
     private boolean drawerInit = true;
     private boolean txtInit = true;
     private boolean pagerInit = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,6 +116,16 @@ public class RxBindActivity extends AppCompatActivity {
 
     public void swipeRefreshTest(View v) {
         Intent intent = new Intent(this, RxSwipeRefreshLayoutTestActivity.class);
+        startActivity(intent);
+    }
+
+    public void swipeMVP(View v) {
+        Intent intent = new Intent(this, RefreshActivity.class);
+        startActivity(intent);
+    }
+
+    public void login(View v) {
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
 

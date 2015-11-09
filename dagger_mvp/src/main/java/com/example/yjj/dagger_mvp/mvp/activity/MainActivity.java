@@ -1,4 +1,4 @@
-package com.example.yjj.dagger_mvp.ui.activity;
+package com.example.yjj.dagger_mvp.mvp.activity;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -8,10 +8,10 @@ import android.widget.TextView;
 
 import com.example.yjj.dagger_mvp.ApplicationComponent;
 import com.example.yjj.dagger_mvp.R;
+import com.example.yjj.dagger_mvp.mvp.component.MainActivityComponent;
 import com.example.yjj.dagger_mvp.ui.component.DaggerMainActivityComponent;
-import com.example.yjj.dagger_mvp.ui.component.MainActivityComponent;
-import com.example.yjj.dagger_mvp.ui.module.MainActivityModule;
-import com.example.yjj.dagger_mvp.ui.presenter.MainPresenter;
+import com.example.yjj.dagger_mvp.mvp.module.MainActivityModule;
+import com.example.yjj.dagger_mvp.mvp.presenter.MainPresenter;
 import com.example.yjj.dagger_mvp.util.ToastUtil;
 
 import javax.inject.Inject;

@@ -4,6 +4,8 @@ import dagger.Module;
 import dagger.Provides;
 
 /**
+ * 可复用
+ *
  * @author:YJJ
  * @date:2015/11/6
  * @email:yangjianjun@117go.com

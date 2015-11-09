@@ -1,11 +1,11 @@
-package com.example.yjj.dagger_mvp.ui.component;
+package com.example.yjj.dagger_mvp.mvp.component;
 
 import com.example.yjj.dagger_mvp.ApplicationComponent;
 import com.example.yjj.dagger_mvp.ActivityScope;
-import com.example.yjj.dagger_mvp.ui.activity.MainActivity;
-import com.example.yjj.dagger_mvp.ui.module.MainActivityModule;
-import com.example.yjj.dagger_mvp.ui.module.UserModelModule;
-import com.example.yjj.dagger_mvp.ui.presenter.MainPresenter;
+import com.example.yjj.dagger_mvp.mvp.activity.MainActivity;
+import com.example.yjj.dagger_mvp.mvp.module.MainActivityModule;
+import com.example.yjj.dagger_mvp.mvp.module.UserModelModule;
+import com.example.yjj.dagger_mvp.mvp.presenter.MainPresenter;
 
 import dagger.Component;
 
@@ -21,6 +21,5 @@ public interface MainActivityComponent {
     void inject(MainActivity activity);
 
     MainPresenter presenter();
-
 
 }

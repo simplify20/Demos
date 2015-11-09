@@ -28,6 +28,9 @@
         <activity
             android:name=".rxbind.RxSwipeRefreshLayoutTestActivity"
             android:label="SwipeRefresh"></activity>
+        <activity android:name=".rxbind.mvp.view.RefreshActivity">
+        </activity>
+        <activity android:name=".rxbind.mvp.view.LoginActivity"></activity>
     </application>
 
 </manifest>

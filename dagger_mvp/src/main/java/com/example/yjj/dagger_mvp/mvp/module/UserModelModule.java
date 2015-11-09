@@ -1,7 +1,7 @@
-package com.example.yjj.dagger_mvp.ui.module;
+package com.example.yjj.dagger_mvp.mvp.module;
 
 import com.example.yjj.dagger_mvp.ActivityScope;
-import com.example.yjj.dagger_mvp.ui.model.UserModel;
+import com.example.yjj.dagger_mvp.mvp.model.UserModel;
 import com.example.yjj.dagger_mvp.webservice.UserService;
 
 import dagger.Module;

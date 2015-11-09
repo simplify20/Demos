@@ -1,4 +1,4 @@
-package com.example.yjj.dagger_mvp.ui.module;
+package com.example.yjj.dagger_mvp.mvp.module;
 
 import com.example.yjj.dagger_mvp.data.AccountManager;
 import com.example.yjj.dagger_mvp.data.User;

@@ -1,4 +1,4 @@
-package com.example.yjj.dagger_mvp.ui.activity;
+package com.example.yjj.dagger_mvp.mvp.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

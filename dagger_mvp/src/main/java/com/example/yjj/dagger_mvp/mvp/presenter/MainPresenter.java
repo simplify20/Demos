@@ -1,9 +1,9 @@
-package com.example.yjj.dagger_mvp.ui.presenter;
+package com.example.yjj.dagger_mvp.mvp.presenter;
 
 import com.example.yjj.dagger_mvp.data.User;
-import com.example.yjj.dagger_mvp.ui.activity.MainActivity;
+import com.example.yjj.dagger_mvp.mvp.activity.MainActivity;
 import com.example.yjj.dagger_mvp.ui.component.DaggerMainPresenterComponent;
-import com.example.yjj.dagger_mvp.ui.model.UserModel;
+import com.example.yjj.dagger_mvp.mvp.model.UserModel;
 import com.example.yjj.dagger_mvp.util.ToastUtil;
 import com.example.yjj.dagger_mvp.util.UserRecorder;
 

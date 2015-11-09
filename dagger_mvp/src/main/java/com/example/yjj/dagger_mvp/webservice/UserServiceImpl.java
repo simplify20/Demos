@@ -37,4 +37,14 @@ public class UserServiceImpl implements UserService {
         return result;
     }
 
+    @Override
+    public User getUser(long id, String name) {
+        for (User user : users) {
+            if (user.getId() == id && user.getName().equals(name)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
 }

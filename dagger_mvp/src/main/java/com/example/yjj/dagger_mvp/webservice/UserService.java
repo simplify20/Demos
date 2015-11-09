@@ -13,4 +13,6 @@ public interface UserService {
     User getUser(long id);
 
     List<User> loadUsers();
+
+    User getUser(long id,String name);
 }
