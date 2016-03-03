@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="1000"
+    android:interpolator="@android:anim/accelerate_interpolator"
+    android:ordering="together">
+    <objectAnimator
+        android:valueType="floatType"
+        android:propertyName="x"
+        android:valueTo="200">
+    </objectAnimator>
+    <objectAnimator
+        android:valueType="floatType"
+        android:propertyName="y"
+        android:valueTo="300">
+    </objectAnimator>
+    <objectAnimator
+        android:propertyName="scaleX"
+        android:valueFrom="1"
+        android:valueTo="2"
+        android:valueType="floatType" />
+    <objectAnimator
+        android:propertyName="scaleY"
+        android:valueFrom="1"
+        android:valueTo="2"
+        android:valueType="floatType" />
+</set>

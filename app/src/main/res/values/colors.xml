@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="src_color">#b93a3a</color>
+    <color name="dst_color">#2dc959</color>
+    <color name="dark_grey">#2d2c2c</color>
+    <color name="light_grey">#b7b7b7</color>
+    <color name="orange">#cc710f</color>
+</resources>

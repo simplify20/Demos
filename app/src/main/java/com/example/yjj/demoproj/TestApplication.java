@@ -3,9 +3,9 @@ package com.example.yjj.demoproj;
 import android.app.Application;
 import android.content.Context;
 
-import com.example.yjj.demoproj.dagger2.ApplicationComponent;
-import com.example.yjj.demoproj.dagger2.ApplicationModule;
-import com.example.yjj.demoproj.dagger2.DaggerApplicationComponent;
+import com.example.yjj.demoproj.dagger2.component.ApplicationComponent;
+import com.example.yjj.demoproj.dagger2.component.DaggerApplicationComponent;
+import com.example.yjj.demoproj.dagger2.module.ApplicationModule;
 
 /**
  * @author:YJJ

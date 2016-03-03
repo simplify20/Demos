@@ -4,8 +4,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.example.yjj.demoproj.dagger2.ActivityModule;
-import com.example.yjj.demoproj.dagger2.ApplicationComponent;
+import com.example.yjj.demoproj.dagger2.module.ActivityModule;
+import com.example.yjj.demoproj.dagger2.component.ApplicationComponent;
 
 import javax.inject.Inject;
 
@@ -19,10 +19,10 @@ public class BaseActivity extends AppCompatActivity {
     public SharedPreferences mSharedPrefs;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getApplicationComponent().inject(this);
-    }
+}
 
     protected ApplicationComponent getApplicationComponent() {
         return ((TestApplication) getApplication()).getComponent();

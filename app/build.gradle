@@ -20,16 +20,38 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    sourceSets {
+        String sharedTestDir = 'src/sharedTest/java'
+        main {
+            res.srcDirs = [
+                    'src/main/res',
+                    'src/main/res/layouts/sub1',
+                    'src/main/res/layouts/sub2',
+            ]
+        }
+        test {
+            java.srcDir sharedTestDir
+        }
+        androidTest {
+            java.srcDir sharedTestDir
+        }
+    }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile "com.android.support:appcompat-v7:23.1.0"
+    compile 'com.android.support:appcompat-v7:23.1.0'
+    compile 'com.android.support:recyclerview-v7:23.1.0'
     //dagger
-    apt 'com.google.dagger:dagger-compiler:2.0'
-    compile 'com.google.dagger:dagger:2.0'
+    apt 'com.google.dagger:dagger-compiler:2.0.2'
+    compile 'com.google.dagger:dagger:2.0.2'
+    compile 'com.google.dagger:dagger-producers:2.0-beta'
     provided 'javax.annotation:jsr250-api:1.0'
     //butter knife
     compile 'com.jakewharton:butterknife:7.0.1'
-
+    compile 'com.android.support:design:23.1.0'
+    //event bus
+    compile 'org.greenrobot:eventbus:3.0.0'
+    testCompile 'junit:junit:4.12'
 }

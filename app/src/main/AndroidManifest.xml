@@ -2,7 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.yjj.demoproj">
 
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD"></uses-permission>
+    <uses-permission android:name="android.permission.BLUETOOTH"></uses-permission>
     <application
         android:name=".TestApplication"
         android:allowBackup="true"
@@ -11,21 +13,44 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name">
-        </activity>
+            android:label="@string/app_name"></activity>
         <activity
             android:name=".NextActivity"
             android:label="@string/app_name">
 
         </activity>
-        <activity android:name=".dagger2.UserListActivity"></activity>
-        <activity android:name=".butterknife.DemoActivity">
+        <activity android:name=".dagger2.view.UserListActivity"></activity>
+        <activity android:name=".butterknife.DemoActivity"></activity>
+        <activity android:name=".XferActivity"></activity>
+        <activity android:name=".ColorActivity"></activity>
+        <activity
+            android:name=".TabLayoutActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+        <activity android:name=".WebViewActivity"></activity>
+        <activity android:name=".AnimationActivity"></activity>
+        <activity
+            android:name=".TranslucentBarActivity"
+            android:theme="@style/TranslucentStatusBar"></activity>
+
+        <activity android:name=".GridActivity"></activity>
+        <activity android:name=".MessengerActivity">
+        </activity>
+        <activity android:name=".BlueToothActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".bluetooth.BluetoothChatActivity"></activity>
+
+        <service android:name=".MessengerService" />
+        <receiver android:name=".widget.SimpleWidget" android:icon="@drawable/widget_preview_dark">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/app_widget_info"/>
+        </receiver>
+
     </application>
 
 </manifest>

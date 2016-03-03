@@ -2,7 +2,7 @@ package com.example.yjj.demoproj;
 
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.example.yjj.demoproj.dagger2.UserListActivity;
+import com.example.yjj.demoproj.dagger2.view.UserListActivity;
 
 /**
  * @author:YJJ

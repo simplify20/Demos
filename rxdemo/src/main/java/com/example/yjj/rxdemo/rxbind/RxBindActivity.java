@@ -37,6 +37,7 @@ public class RxBindActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private RelativeLayout drawerContainer;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

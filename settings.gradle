@@ -1,1 +1,1 @@
-include ':rxdemo'
+include ':rxdemo','app','android_test','dagger_mvp'

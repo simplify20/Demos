@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.yjj.demoproj.util.TestUtils;
+
 
 /**
  * @author:YJJ
@@ -29,6 +31,8 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     public MainActivityTest() {
         super(MainActivity.class);
     }
+
+
 
     public void testPreconditions() throws Exception {
         assertNotNull("activity is null", mMainActivity);
@@ -100,7 +104,8 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         super.setUp();
 
         setActivityInitialTouchMode(false);
-
+        //call common test com.example.yjj.demoproj.util api
+        TestUtils.log();
         mMainActivity = getActivity();
         mHello = (TextView) mMainActivity.findViewById(R.id.text_hello);
         mButton = (Button) mMainActivity.findViewById(R.id.button);

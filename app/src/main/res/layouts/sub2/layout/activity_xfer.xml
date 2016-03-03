@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.example.yjj.demoproj.view.XferView
+        android:id="@+id/xfer1"
+        android:layout_width="200dp"
+        android:layout_height="200dp" />
+
+    <TextView
+        android:id="@+id/model_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp" />
+
+
+    <!--<com.example.yjj.demoproj.view.ShaderView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginLeft="20dp"-->
+    <!--android:layout_marginTop="20dp" />-->
+
+    <!--<com.example.yjj.demoproj.view.MaskView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginLeft="20dp"-->
+    <!--android:layout_marginTop="20dp" />-->
+    <com.example.yjj.demoproj.view.TagLayout
+        android:id="@+id/tags"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:padding="10dp"
+        app:tag_background="@drawable/tag_layout_background"
+        app:tag_hor_margin="5dp"
+        app:tag_padding="5dp"
+        app:tag_text_color="#911c30"
+        app:tag_text_size="20sp"
+        app:tag_ver_margin="5dp"></com.example.yjj.demoproj.view.TagLayout>
+
+</LinearLayout>
