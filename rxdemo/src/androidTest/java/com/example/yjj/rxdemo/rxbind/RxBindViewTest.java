@@ -16,6 +16,7 @@ import com.example.yjj.rxdemo.rxbind.bean.User;
 import com.example.yjj.rxdemo.rxbind.interactor.GetWordsService;
 import com.example.yjj.rxdemo.rxbind.interactor.LoginService;
 import com.jakewharton.rxbinding.view.RxView;
+import com.jakewharton.rxbinding.view.ViewLayoutChangeEvent;
 
 import java.util.List;
 
@@ -147,18 +148,27 @@ public class RxBindViewTest extends InstrumentationTestCase {
     @SmallTest
     @UiThreadTest
     public void testLayoutChanges() {
+        //no event
         Subscription subscription = RxView.layoutChanges(view).subscribe(new Action1<Void>() {
             @Override
             public void call(Void aVoid) {
-                println(aVoid);
+                println("layout changes");
             }
         });
-
+        //trigger layout change
+        view.layout(view.getLeft() - 5, view.getTop() - 5, view.getRight(), view.getBottom());
+        view.layout(view.getLeft(), view.getTop(), view.getRight(), view.getBottom());
+        subscription.unsubscribe();
         view.layout(view.getLeft() - 5, view.getTop() - 5, view.getRight(), view.getBottom());
 
-        view.layout(view.getLeft(), view.getTop(), view.getRight(), view.getBottom());
-
-        subscription.unsubscribe();
+        //event
+        RxView.layoutChangeEvents(view).subscribe(new Action1<ViewLayoutChangeEvent>() {
+            @Override
+            public void call(ViewLayoutChangeEvent viewLayoutChangeEvent) {
+                println(viewLayoutChangeEvent);
+            }
+        });
+        //trigger layout change
         view.layout(view.getLeft() - 5, view.getTop() - 5, view.getRight(), view.getBottom());
     }
 
@@ -181,12 +191,7 @@ public class RxBindViewTest extends InstrumentationTestCase {
                         return !TextUtils.isEmpty(s);
                     }
                 })
-                .subscribe(new Action1<Boolean>() {
-                    @Override
-                    public void call(Boolean aBoolean) {
-                        RxView.visibility(view).call(aBoolean);
-                    }
-                });
+                .subscribe(RxView.visibility(view));
         assertEquals(View.VISIBLE, view.getVisibility());
     }
 
@@ -213,14 +218,9 @@ public class RxBindViewTest extends InstrumentationTestCase {
                         return false;
                     }
                 })
-                .subscribe(new Action1<Boolean>() {
-                    @Override
-                    public void call(Boolean enabled) {
-                        RxView.enabled(loginBtn).call(enabled);
-                    }
-                });
+                .subscribe(RxView.enabled(loginBtn));
         loginBtn.performClick();
-        assertEquals(true, loginBtn.isEnabled());
+        assertEquals(false, loginBtn.isEnabled());
 
     }
 

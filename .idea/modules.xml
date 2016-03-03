@@ -2,11 +2,15 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/DemoProj.iml" filepath="$PROJECT_DIR$/DemoProj.iml" />
+=======
+>>>>>>> 1cca4699bc56c49afe40e9fedec3bb26d9917e69
       <module fileurl="file://$PROJECT_DIR$/android_test/android_test.iml" filepath="$PROJECT_DIR$/android_test/android_test.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/dagger_mvp/dagger_mvp.iml" filepath="$PROJECT_DIR$/dagger_mvp/dagger_mvp.iml" />
       <module fileurl="file://$PROJECT_DIR$/rxdemo/rxdemo.iml" filepath="$PROJECT_DIR$/rxdemo/rxdemo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rxdemoproject.iml" filepath="$PROJECT_DIR$/rxdemoproject.iml" />
     </modules>
   </component>
 </project>

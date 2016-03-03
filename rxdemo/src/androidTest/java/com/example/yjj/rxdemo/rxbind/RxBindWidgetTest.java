@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.test.InstrumentationTestCase;
 import android.test.UiThreadTest;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -56,7 +57,7 @@ public class RxBindWidgetTest extends InstrumentationTestCase {
                 .subscribe(new Action1<TestAdapter>() {
                     @Override
                     public void call(TestAdapter testAdapter) {
-                        //do something when dataChange
+                        //do something when special data has been inserted
                         println(testAdapter.getData());
                     }
                 });
@@ -81,22 +82,20 @@ public class RxBindWidgetTest extends InstrumentationTestCase {
                     @Override
                     public void call(Integer integer) {
                         RxView.visibility(view).call(true);
-                        System.out.println("upload " + integer + " bytes");
+                        println("upload " + integer + " bytes");
                     }
                 })
                 .doOnCompleted(new Action0() {
                     @Override
                     public void call() {
                         RxView.visibility(view).call(false);
+                        println("上传成功");
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Integer>() {
-                    @Override
-                    public void call(Integer integer) {
-                        RxProgressBar.incrementProgressBy(view).call(integer);
-                    }
-                });
+                .subscribe(RxProgressBar.incrementProgressBy(view));
+
+        assertEquals(View.GONE, view.getVisibility());
     }
 
     @UiThreadTest
@@ -136,6 +135,9 @@ public class RxBindWidgetTest extends InstrumentationTestCase {
                     }
                 })
                 .subscribe(RxTextView.color(textView));
+
+        assertEquals(Color.GRAY, textView.getTextColors().getDefaultColor());
+
         Observable.just("black", "red", "gray")
                 .doOnNext(new Action1<String>() {
                     @Override
@@ -144,5 +146,6 @@ public class RxBindWidgetTest extends InstrumentationTestCase {
                     }
                 })
                 .subscribe(RxTextView.text(textView));
+        assertEquals("gray", textView.getText());
     }
 }

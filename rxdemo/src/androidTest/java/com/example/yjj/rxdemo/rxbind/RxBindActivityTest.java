@@ -25,7 +25,7 @@ public class RxBindActivityTest extends ActivityInstrumentationTestCase2<RxBindA
     protected void setUp() throws Exception {
         super.setUp();
         activity = getActivity();
-        assertNotNull("activity is null", activity);
+        assertNotNull("activity_login is null", activity);
         btn = (Button) activity.findViewById(R.id.btn);
         assertNotNull("btn is null", btn);
         txt = (TextView) activity.findViewById(R.id.text_view);
