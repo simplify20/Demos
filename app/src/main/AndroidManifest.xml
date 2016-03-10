@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD"></uses-permission>
     <uses-permission android:name="android.permission.BLUETOOTH"></uses-permission>
+
     <application
         android:name=".TestApplication"
         android:allowBackup="true"
@@ -33,8 +34,7 @@
             android:theme="@style/TranslucentStatusBar"></activity>
 
         <activity android:name=".GridActivity"></activity>
-        <activity android:name=".MessengerActivity">
-        </activity>
+        <activity android:name=".MessengerActivity"></activity>
         <activity android:name=".BlueToothActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,12 +44,17 @@
         <activity android:name=".bluetooth.BluetoothChatActivity"></activity>
 
         <service android:name=".MessengerService" />
-        <receiver android:name=".widget.SimpleWidget" android:icon="@drawable/widget_preview_dark">
+        <receiver
+            android:name=".widget.SimpleWidget"
+            android:icon="@drawable/widget_preview_dark">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
-            <meta-data android:name="android.appwidget.provider" android:resource="@xml/app_widget_info"/>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/app_widget_info" />
         </receiver>
+        <activity android:name=".eventbus.BusActivity" />
 
     </application>
 

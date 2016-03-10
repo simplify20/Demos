@@ -8,8 +8,8 @@ import android.widget.TextView;
 
 import com.example.yjj.dagger_mvp.ApplicationComponent;
 import com.example.yjj.dagger_mvp.R;
+import com.example.yjj.dagger_mvp.mvp.component.DaggerMainActivityComponent;
 import com.example.yjj.dagger_mvp.mvp.component.MainActivityComponent;
-import com.example.yjj.dagger_mvp.ui.component.DaggerMainActivityComponent;
 import com.example.yjj.dagger_mvp.mvp.module.MainActivityModule;
 import com.example.yjj.dagger_mvp.mvp.presenter.MainPresenter;
 import com.example.yjj.dagger_mvp.util.ToastUtil;
