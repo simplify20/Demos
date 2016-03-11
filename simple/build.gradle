@@ -34,7 +34,6 @@ dependencies {
     compile 'com.google.dagger:dagger:2.0.2'
     compile 'com.google.dagger:dagger-producers:2.0-beta'
     provided 'javax.annotation:jsr250-api:1.0'
-
     //rx
     compile 'io.reactivex:rxandroid:1.0.1'
     compile 'io.reactivex:rxjava:1.0.14'

@@ -10,8 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name">
+            android:name=".presentation.view.SearchRepoActivity"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="adjustResize">
+        </activity>
+        <activity android:name=".MainActivity"
+            android:label="Simple">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
