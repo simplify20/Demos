@@ -23,7 +23,6 @@ public class BaseObservableRepository<T> extends BaseRepository<T, Subscription>
     private String TAG = "BaseObservableRepository";
 
     protected DataSource<Observable<T>> dataSource;
-
     protected CompositeSubscription subscriptions = new CompositeSubscription();
 
     public BaseObservableRepository(Scheduler postScheduler, Scheduler workScheduler, DataSource<Observable<T>> dataSource) {

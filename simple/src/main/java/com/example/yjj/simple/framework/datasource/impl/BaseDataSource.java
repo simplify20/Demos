@@ -27,5 +27,20 @@ public abstract class BaseDataSource<R, T> implements DataSource<T> {
         dataFetcher.close();
     }
 
+    @Override
+    public IParameter buildParameter(IParameter extra, String... values) {
+        RequestParameter requestParameter;
+        if (extra != null && extra instanceof RequestParameter) {
+            requestParameter = (RequestParameter) extra;
+        } else {
+            requestParameter = new RequestParameter();
+        }
+        if (values == null || values.length == 0)
+            return requestParameter;
+        return requestParameter;
+    }
+
     public abstract T convert(IParameter requestParameter);
+
+
 }

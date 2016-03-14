@@ -1,5 +1,10 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
-
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="mainPage"
+            type="com.example.yjj.simple.MainActivity.MainPageData"/>
+    </data>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -7,12 +12,20 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="vertical"
             android:padding="10dp">
+
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="repo"
-                android:text="repo"/>
+                android:text="repo" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:imgUrl = "@{mainPage.imgUrl}"
+                android:layout_gravity="center_horizontal" />
         </LinearLayout>
     </ScrollView>
 </layout>  

@@ -13,9 +13,6 @@ public class BaseRepository<D, T> implements Repository<D, T> {
 
     protected DataCallback<D> callback;
 
-    public BaseRepository() {
-    }
-
     @Override
     public T getData(IParameter extra, String... values) {
         return null;

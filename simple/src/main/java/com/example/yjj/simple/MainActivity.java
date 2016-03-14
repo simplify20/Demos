@@ -1,10 +1,13 @@
 package com.example.yjj.simple;
 
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.example.yjj.simple.data.di.common.component.DaggerProductionComponent;
+import com.example.yjj.simple.databinding.ActivityMainBinding;
 import com.example.yjj.simple.presentation.view.SearchRepoActivity;
 
 /**
@@ -17,11 +20,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        //set binding component
+        DataBindingUtil.setDefaultComponent(DaggerProductionComponent.builder().build());
+        ActivityMainBinding activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        activityMainBinding.setMainPage(new MainPageData("http://i.imgur.com/DvpvklR.png"));
     }
 
     public void repo(View v) {
         Intent intent = new Intent(this, SearchRepoActivity.class);
         startActivity(intent);
+    }
+
+    public static class MainPageData{
+        public String imgUrl;
+
+        public MainPageData(String imgUrl) {
+            this.imgUrl = imgUrl;
+        }
     }
 }

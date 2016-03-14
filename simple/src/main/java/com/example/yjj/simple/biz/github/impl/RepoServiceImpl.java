@@ -1,6 +1,6 @@
 package com.example.yjj.simple.biz.github.impl;
 
-import com.example.yjj.simple.biz.github.ReposService;
+import com.example.yjj.simple.biz.github.RepoService;
 import com.example.yjj.simple.data.web.api.ApiConstants;
 import com.example.yjj.simple.framework.datasource.impl.RequestParameter;
 import com.example.yjj.simple.framework.repository.DataCallback;
@@ -14,19 +14,19 @@ import javax.inject.Named;
  * @date:2016/3/10
  * @email:yangjianjun@117go.com
  */
-public class ReposServiceImpl implements ReposService {
+public class RepoServiceImpl implements RepoService {
     private BaseRepository repository;
 
     @Inject
-    public ReposServiceImpl(@Named(ApiConstants.ACTION_GET_REPOS) BaseRepository repository) {
+    public RepoServiceImpl(@Named(ApiConstants.ACTION_GET_REPOS) BaseRepository repository) {
         this.repository = repository;
     }
 
     @Override
-    public void getRepos(String owner, DataCallback callback) {
+    public void getRepos(String owner, DataCallback repoListCallback) {
 
         RequestParameter extraParams = RequestParameter.newActionParameter(ApiConstants.ACTION_GET_REPOS);
-        repository.setCallback(callback);
+        repository.setCallback(repoListCallback);
         repository.getData(extraParams, owner);
     }
 }

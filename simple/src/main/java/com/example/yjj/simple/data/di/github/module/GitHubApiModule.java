@@ -1,6 +1,8 @@
 package com.example.yjj.simple.data.di.github.module;
 
+import com.example.yjj.simple.biz.github.RepoService;
 import com.example.yjj.simple.biz.github.impl.ContributorsRepository;
+import com.example.yjj.simple.biz.github.impl.RepoServiceImpl;
 import com.example.yjj.simple.biz.github.impl.ReposRepository;
 import com.example.yjj.simple.data.datasource.github.ContributorsDataSource;
 import com.example.yjj.simple.data.datasource.github.ReposDataSource;
@@ -40,6 +42,8 @@ public class GitHubApiModule {
     public GitHubApiModule() {
     }
 
+    /***************************API*********************************************************************************/
+
     @Provides
     @Named("github")
     Retrofit retrofit() {
@@ -54,6 +58,8 @@ public class GitHubApiModule {
         return retrofit.create(GitHubApi.class);
     }
 
+    /**************************************DataFetcher*********************************************************************************/
+
     @Provides
     @Named(ApiConstants.ACTION_GET_CONTRIBUTORS)
     DataFetcher<List<Contributor>> contributionsDataFetcher(ContributorsDataSource.ContributorFetcher contributorFetcher) {
@@ -66,6 +72,8 @@ public class GitHubApiModule {
         return reposFetcher;
     }
 
+    /***************************************DataSource*********************************************************************************/
+
     @Provides
     DataSource<Observable<List<Contributor>>> contributorDataSource(@Named(ApiConstants.ACTION_GET_CONTRIBUTORS) DataFetcher<List<Contributor>> dataFetcher) {
         return new ContributorsDataSource(dataFetcher);
@@ -75,6 +83,8 @@ public class GitHubApiModule {
     DataSource<Observable<List<Repo>>> repoDataSource(@Named(ApiConstants.ACTION_GET_REPOS) DataFetcher<List<Repo>> dataFetcher) {
         return new ReposDataSource(dataFetcher);
     }
+
+    /**************************************Repository*********************************************************************************/
 
     @Provides
     @Named(ApiConstants.ACTION_GET_CONTRIBUTORS)
@@ -86,5 +96,12 @@ public class GitHubApiModule {
     @Named(ApiConstants.ACTION_GET_REPOS)
     BaseRepository reposRepository(ReposRepository repository) {
         return repository;
+    }
+
+    /*************************************Service*********************************************************************************/
+
+    @Provides
+    RepoService repoService(RepoServiceImpl repoService) {
+        return repoService;
     }
 }

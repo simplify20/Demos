@@ -1,6 +1,7 @@
 package com.example.yjj.simple.presentation.view;
 
 import android.app.ProgressDialog;
+import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,38 +14,69 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.yjj.simple.R;
-import com.example.yjj.simple.biz.github.ReposService;
+import com.example.yjj.simple.biz.github.RepoService;
 import com.example.yjj.simple.data.di.github.component.DaggerGitHubComponent;
-import com.example.yjj.simple.data.di.github.component.GitHubComponent;
+import com.example.yjj.simple.data.di.github.component.DaggerSearchRepoComponent;
 import com.example.yjj.simple.data.entity.github.Repo;
 import com.example.yjj.simple.databinding.ActivityRepoSearchBinding;
 import com.example.yjj.simple.databinding.CellRepoBinding;
 import com.example.yjj.simple.framework.repository.DataCallback;
+import com.example.yjj.simple.framework.repository.impl.DataCallbackAdapter;
 import com.example.yjj.simple.framework.util.DeviceUtil;
+import com.example.yjj.simple.framework.util.ToastUtil;
+import com.example.yjj.simple.presentation.viewmodel.RepoViewModel;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class SearchRepoActivity extends AppCompatActivity {
 
+    @Inject
+    RepoService repoService;
+    private ActivityRepoSearchBinding activityMainBinding;
     private RepoAdapter repoAdapter;
-    private ReposService reposService;
+    private RepoViewModel repoViewModel = new RepoViewModel();
+    private ProgressDialog progressDialog;
+    private DataCallback<List<Repo>> mDataCallback;
 
-    ActivityRepoSearchBinding activityMainBinding;
-
+    /**
+     * Not recommend do like this,static method is hard to test
+     * @param recyclerView
+     * @param repos
+     */
+    @BindingAdapter("dataSet")
+    public static void setRepoList(RecyclerView recyclerView, List<Repo> repos) {
+        RepoAdapter repoAdapter = (RepoAdapter) recyclerView.getAdapter();
+        if (repos == null || repos.size() == 0) {
+            ToastUtil.toastShortMsg("没有搜到任何结果~");
+            return;
+        }
+        repoAdapter.setRepos(repos);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_repo_search);
+        activityMainBinding.setRepoVm(repoViewModel);
+        mDataCallback = new RepoCallback();
+        initViews();
+        injectDepens();
+    }
+
+    private void initViews() {
         repoAdapter = new RepoAdapter();
         activityMainBinding.reposList.setAdapter(repoAdapter);
         activityMainBinding.reposList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        GitHubComponent gitHubComponent = DaggerGitHubComponent.builder().build();
-        reposService = gitHubComponent.getRepoService();
-
     }
 
+    private void injectDepens() {
+        DaggerSearchRepoComponent.builder()
+                .gitHubComponent(DaggerGitHubComponent.builder().build())
+                .build().inject(this);
+    }
 
 
     public void search(View v) {
@@ -53,34 +85,32 @@ public class SearchRepoActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(name)) {
             return;
         }
-        final ProgressDialog progressDialog = ProgressDialog.show(this, "搜索中...", "");
-        reposService.getRepos(name.toString(), new DataCallback<List<Repo>>() {
-
-            @Override
-            public void onSuccess(List<Repo> repos) {
-                if (repos == null || repos.size() == 0) {
-                    Toast.makeText(SearchRepoActivity.this, "没有搜到任何结果~", Toast.LENGTH_SHORT);
-                    activityMainBinding.setIsEmpty(true);
-                    return;
-                }
-                activityMainBinding.setIsEmpty(false);
-                repoAdapter.setRepos(repos);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Toast.makeText(SearchRepoActivity.this, "出错了~", Toast.LENGTH_SHORT);
-                progressDialog.dismiss();
-            }
-
-            @Override
-            public void onComplete() {
-                progressDialog.dismiss();
-            }
-        });
-
+        progressDialog = ProgressDialog.show(this, "搜索中...", "");
+        repoService.getRepos(name.toString(), mDataCallback);
     }
-    private static class RepoViewHolder extends RecyclerView.ViewHolder implements Bindable<Repo> {
+
+
+    /**
+     * DataCallback
+     */
+    private class RepoCallback extends DataCallbackAdapter<List<Repo>> {
+        @Override
+        public void onError(Throwable e) {
+            super.onError(e);
+            Toast.makeText(SearchRepoActivity.this, "出错了~", Toast.LENGTH_SHORT);
+            progressDialog.dismiss();
+        }
+
+        @Override
+        public void onSuccess(List<Repo> repos) {
+            super.onSuccess(repos);
+            repoViewModel.addAll(repos);
+            progressDialog.dismiss();
+        }
+    }
+
+
+    private static class RepoViewHolder extends RecyclerView.ViewHolder implements Bindable<com.example.yjj.simple.data.entity.github.Repo> {
         private CellRepoBinding cellRepoBinding;
 
         public RepoViewHolder(View itemView) {

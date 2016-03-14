@@ -1,7 +1,7 @@
 package com.example.yjj.simple.data.di.github.component;
 
+import com.example.yjj.simple.biz.github.RepoService;
 import com.example.yjj.simple.biz.github.impl.ContributorsServiceImpl;
-import com.example.yjj.simple.biz.github.impl.ReposServiceImpl;
 import com.example.yjj.simple.data.di.github.module.GitHubApiModule;
 
 import dagger.Component;
@@ -21,5 +21,5 @@ public interface GitHubComponent {
      */
     ContributorsServiceImpl getContributorsService();
 
-    ReposServiceImpl getRepoService();
+    RepoService getRepoService();
 }
