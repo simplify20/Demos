@@ -18,7 +18,7 @@ public class RepoServiceImpl implements RepoService {
     private BaseRepository repository;
 
     @Inject
-    public RepoServiceImpl(@Named(ApiConstants.ACTION_GET_REPOS) BaseRepository repository) {
+    public RepoServiceImpl(@Named(ApiConstants.ACTION_DAGGER_GET_REPOS) BaseRepository repository) {
         this.repository = repository;
     }
 

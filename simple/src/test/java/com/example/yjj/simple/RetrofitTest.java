@@ -24,7 +24,7 @@ public class RetrofitTest {
     public void setUp() throws Exception {
         simpleService = DaggerGitHubComponent.builder()
                 .build()
-                .getGitHubService();
+                .getContributorsService();
     }
 
     @Test

@@ -1,16 +1,14 @@
 package com.example.yjj.simple.data.datasource.github;
 
 import com.example.yjj.simple.data.datasource.BaseDaggerDataSource;
+import com.example.yjj.simple.data.di.github.component.DaggerRepoProducerComponent;
+import com.example.yjj.simple.data.di.github.producer.GitHubProducer;
 import com.example.yjj.simple.data.entity.github.Repo;
-import com.example.yjj.simple.data.web.api.GitHubApi;
 import com.example.yjj.simple.framework.IParameter;
-import com.example.yjj.simple.framework.datasource.DataFetcher;
 import com.example.yjj.simple.framework.datasource.impl.RequestParameter;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.List;
-
-import javax.inject.Inject;
 
 /**
  * @author:YJJ
@@ -18,8 +16,10 @@ import javax.inject.Inject;
  * @email:yangjianjun@117go.com
  */
 public class RepoDaggerDataSource extends BaseDaggerDataSource<List<Repo>> {
-    public RepoDaggerDataSource(DataFetcher<ListenableFuture<List<Repo>>> dataFetcher) {
-        super(dataFetcher);
+
+
+    public RepoDaggerDataSource() {
+        super(null);
     }
 
     @Override
@@ -29,16 +29,12 @@ public class RepoDaggerDataSource extends BaseDaggerDataSource<List<Repo>> {
         return requestParameter;
     }
 
-    public static class RepoDaggerFetcher extends GitHubDataFetcher<ListenableFuture<List<Repo>>> {
-
-        @Inject
-        public RepoDaggerFetcher(GitHubApi gitHubApi) {
-            super(gitHubApi);
-        }
-
-        @Override
-        public ListenableFuture<List<Repo>> fetchData(RequestParameter parameter) throws Exception {
-            return null;
-        }
+    @Override
+    public ListenableFuture<List<Repo>> getData(IParameter parameter) {
+        return DaggerRepoProducerComponent.builder()
+                .gitHubProducer(new GitHubProducer(parameter))
+                .executor(executor)
+                .build()
+                .getRepo();
     }
 }

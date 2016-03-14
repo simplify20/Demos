@@ -1,10 +1,12 @@
 package com.example.yjj.simple.data.di.github.module;
 
+import com.example.yjj.simple.biz.BaseDaggerRepository;
 import com.example.yjj.simple.biz.github.RepoService;
 import com.example.yjj.simple.biz.github.impl.ContributorsRepository;
 import com.example.yjj.simple.biz.github.impl.RepoServiceImpl;
 import com.example.yjj.simple.biz.github.impl.ReposRepository;
 import com.example.yjj.simple.data.datasource.github.ContributorsDataSource;
+import com.example.yjj.simple.data.datasource.github.RepoDaggerDataSource;
 import com.example.yjj.simple.data.datasource.github.ReposDataSource;
 import com.example.yjj.simple.data.di.common.module.ScheduleModule;
 import com.example.yjj.simple.data.entity.github.Contributor;
@@ -42,7 +44,9 @@ public class GitHubApiModule {
     public GitHubApiModule() {
     }
 
-    /***************************API*********************************************************************************/
+    /***************************
+     * API
+     *********************************************************************************/
 
     @Provides
     @Named("github")
@@ -58,7 +62,9 @@ public class GitHubApiModule {
         return retrofit.create(GitHubApi.class);
     }
 
-    /**************************************DataFetcher*********************************************************************************/
+    /**************************************
+     * DataFetcher
+     *********************************************************************************/
 
     @Provides
     @Named(ApiConstants.ACTION_GET_CONTRIBUTORS)
@@ -72,7 +78,9 @@ public class GitHubApiModule {
         return reposFetcher;
     }
 
-    /***************************************DataSource*********************************************************************************/
+    /***************************************
+     * DataSource
+     *********************************************************************************/
 
     @Provides
     DataSource<Observable<List<Contributor>>> contributorDataSource(@Named(ApiConstants.ACTION_GET_CONTRIBUTORS) DataFetcher<List<Contributor>> dataFetcher) {
@@ -84,7 +92,9 @@ public class GitHubApiModule {
         return new ReposDataSource(dataFetcher);
     }
 
-    /**************************************Repository*********************************************************************************/
+    /**************************************
+     * Repository
+     *********************************************************************************/
 
     @Provides
     @Named(ApiConstants.ACTION_GET_CONTRIBUTORS)
@@ -98,7 +108,21 @@ public class GitHubApiModule {
         return repository;
     }
 
-    /*************************************Service*********************************************************************************/
+    @Provides
+    @Named(ApiConstants.ACTION_DAGGER_GET_REPOS)
+    DataSource produceRepo() {
+        return new RepoDaggerDataSource();
+    }
+
+    @Provides
+    @Named(ApiConstants.ACTION_DAGGER_GET_REPOS)
+    BaseRepository repository(@Named(ApiConstants.ACTION_DAGGER_GET_REPOS) DataSource dataSource) {
+        return new BaseDaggerRepository(dataSource);
+    }
+
+    /*************************************
+     * Service
+     *********************************************************************************/
 
     @Provides
     RepoService repoService(RepoServiceImpl repoService) {

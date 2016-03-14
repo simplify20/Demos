@@ -11,4 +11,5 @@ public final class ApiConstants {
 
     public static final String ACTION_GET_CONTRIBUTORS = "getContributors";
     public static final String ACTION_GET_REPOS = "getRepos";
+    public static final String ACTION_DAGGER_GET_REPOS = "daggerGetRepos";
 }
