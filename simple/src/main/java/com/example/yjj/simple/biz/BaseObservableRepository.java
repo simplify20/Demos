@@ -2,9 +2,8 @@ package com.example.yjj.simple.biz;
 
 
 import com.example.yjj.simple.framework.IParameter;
-import com.example.yjj.simple.framework.repository.impl.BaseRepository;
-import com.example.yjj.simple.framework.repository.impl.DataCallbackAdapter;
 import com.example.yjj.simple.framework.datasource.DataSource;
+import com.example.yjj.simple.framework.repository.impl.BaseRepository;
 
 import rx.Observable;
 import rx.Scheduler;
@@ -34,6 +33,7 @@ public abstract class BaseObservableRepository<C, S> extends BaseRepository<C, S
 
     @Override
     public Subscription getData(IParameter extra, String... values) {
+        super.getData(extra, values);
         Subscription subscription = dataSource.getData(extra, values)
                 .subscribeOn(workScheduler)
                 .observeOn(postScheduler)
@@ -46,20 +46,23 @@ public abstract class BaseObservableRepository<C, S> extends BaseRepository<C, S
                 .subscribe(new Subscriber<C>() {
                     @Override
                     public void onCompleted() {
-                        if (callback != null)
-                            new DataCallbackAdapter<>(callback).onComplete();
+                        if (callback != null) {
+                            callback.onComplete();
+                        }
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        if (callback != null)
-                            new DataCallbackAdapter<>(callback).onError(e);
+                        if (callback != null) {
+                            callback.onError(e);
+                        }
                     }
 
                     @Override
                     public void onNext(C t) {
-                        if (callback != null)
-                            new DataCallbackAdapter<>(callback).onSuccess(t);
+                        if (callback != null) {
+                            callback.onSuccess(t);
+                        }
                     }
                 });
         subscriptions.add(subscription);
@@ -68,6 +71,7 @@ public abstract class BaseObservableRepository<C, S> extends BaseRepository<C, S
 
     @Override
     public void close() {
+        super.close();
         if (!subscriptions.isUnsubscribed())
             subscriptions.unsubscribe();
     }

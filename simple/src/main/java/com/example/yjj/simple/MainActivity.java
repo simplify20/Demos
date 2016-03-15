@@ -3,19 +3,19 @@ package com.example.yjj.simple;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.example.yjj.simple.data.di.common.component.DaggerProductionComponent;
 import com.example.yjj.simple.databinding.ActivityMainBinding;
 import com.example.yjj.simple.presentation.view.SearchRepoActivity;
+import com.example.yjj.simple.presentation.view.common.BaseActivity;
 
 /**
  * @author:YJJ
  * @date:2016/3/11
  * @email:yangjianjun@117go.com
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

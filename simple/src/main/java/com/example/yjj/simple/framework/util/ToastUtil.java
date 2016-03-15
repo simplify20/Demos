@@ -2,7 +2,7 @@ package com.example.yjj.simple.framework.util;
 
 import android.widget.Toast;
 
-import com.example.yjj.simple.SimleApplication;
+import com.example.yjj.simple.SimpleApplication;
 
 /**
  * @author:YJJ
@@ -12,6 +12,6 @@ import com.example.yjj.simple.SimleApplication;
 public class ToastUtil {
 
     public static void toastShortMsg(String msg) {
-        Toast.makeText(SimleApplication.getContext(), msg, Toast.LENGTH_SHORT).show();
+        Toast.makeText(SimpleApplication.getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 }

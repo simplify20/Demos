@@ -6,7 +6,6 @@ import com.example.yjj.simple.framework.datasource.impl.BaseDataSource;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 /**
  * @author:YJJ
@@ -14,10 +13,12 @@ import java.util.concurrent.Executors;
  * @email:yangjianjun@117go.com
  */
 public abstract class BaseDaggerDataSource<T> extends BaseDataSource<ListenableFuture<T>, ListenableFuture<T>> {
-    //TODO INJECT
-    protected Executor executor = Executors.newSingleThreadExecutor();
-    public BaseDaggerDataSource(DataFetcher<ListenableFuture<T>> dataFetcher) {
+
+    protected Executor executor;
+
+    public BaseDaggerDataSource(Executor executor, DataFetcher<ListenableFuture<T>> dataFetcher) {
         super(dataFetcher);
+        this.executor = executor;
     }
 
     @Override

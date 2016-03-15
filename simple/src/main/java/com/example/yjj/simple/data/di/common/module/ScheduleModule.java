@@ -1,5 +1,10 @@
 package com.example.yjj.simple.data.di.common.module;
 
+import com.example.yjj.simple.data.web.api.ApiConstants;
+
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
 import javax.inject.Named;
 
 import dagger.Module;
@@ -25,5 +30,11 @@ public class ScheduleModule {
     @Named("work")
     Scheduler workScheduler() {
         return Schedulers.newThread();
+    }
+
+    @Provides
+    @Named(ApiConstants.SCHEDULE_EXECUTOR_SINGLE_THREAD)
+    Executor workExecutor() {
+        return Executors.newSingleThreadExecutor();
     }
 }

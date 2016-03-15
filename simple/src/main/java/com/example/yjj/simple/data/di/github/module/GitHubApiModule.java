@@ -1,8 +1,8 @@
 package com.example.yjj.simple.data.di.github.module;
 
-import com.example.yjj.simple.biz.BaseDaggerRepository;
 import com.example.yjj.simple.biz.github.RepoService;
 import com.example.yjj.simple.biz.github.impl.ContributorsRepository;
+import com.example.yjj.simple.biz.github.impl.DaggerRepoRepository;
 import com.example.yjj.simple.biz.github.impl.RepoServiceImpl;
 import com.example.yjj.simple.biz.github.impl.ReposRepository;
 import com.example.yjj.simple.data.datasource.github.ContributorsDataSource;
@@ -46,7 +46,7 @@ public class GitHubApiModule {
 
     /***************************
      * API
-     *********************************************************************************/
+     ***************************/
 
     @Provides
     @Named("github")
@@ -64,7 +64,7 @@ public class GitHubApiModule {
 
     /**************************************
      * DataFetcher
-     *********************************************************************************/
+     **************************************/
 
     @Provides
     @Named(ApiConstants.ACTION_GET_CONTRIBUTORS)
@@ -80,7 +80,7 @@ public class GitHubApiModule {
 
     /***************************************
      * DataSource
-     *********************************************************************************/
+     ***************************************/
 
     @Provides
     DataSource<Observable<List<Contributor>>> contributorDataSource(@Named(ApiConstants.ACTION_GET_CONTRIBUTORS) DataFetcher<List<Contributor>> dataFetcher) {
@@ -94,7 +94,7 @@ public class GitHubApiModule {
 
     /**************************************
      * Repository
-     *********************************************************************************/
+     **************************************/
 
     @Provides
     @Named(ApiConstants.ACTION_GET_CONTRIBUTORS)
@@ -108,26 +108,24 @@ public class GitHubApiModule {
         return repository;
     }
 
+    /**************************************
+     * Dagger test
+     **************************************/
     @Provides
     @Named(ApiConstants.ACTION_DAGGER_GET_REPOS)
-    DataSource produceRepo() {
-        return new RepoDaggerDataSource();
+    DataSource daggerRepoDataSource(RepoDaggerDataSource daggerDataSource) {
+        return daggerDataSource;
     }
 
     @Provides
     @Named(ApiConstants.ACTION_DAGGER_GET_REPOS)
-    BaseRepository repository(@Named(ApiConstants.ACTION_DAGGER_GET_REPOS) DataSource dataSource) {
-        return new BaseDaggerRepository(dataSource) {
-            @Override
-            public Object convert(Object o) {
-                return o;
-            }
-        };
+    BaseRepository daggerRepository(@Named(ApiConstants.ACTION_DAGGER_GET_REPOS) DataSource dataSource) {
+        return new DaggerRepoRepository(dataSource);
     }
 
     /*************************************
      * Service
-     *********************************************************************************/
+     *************************************/
 
     @Provides
     RepoService repoService(RepoServiceImpl repoService) {

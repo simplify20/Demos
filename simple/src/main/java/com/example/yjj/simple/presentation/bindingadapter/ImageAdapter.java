@@ -4,7 +4,7 @@ import android.databinding.BindingAdapter;
 import android.support.annotation.DrawableRes;
 import android.widget.ImageView;
 
-import com.example.yjj.simple.SimleApplication;
+import com.example.yjj.simple.SimpleApplication;
 
 /**
  * @author:YJJ
@@ -15,14 +15,14 @@ public class ImageAdapter {
 
     @BindingAdapter(value = {"imgUrl", "placeHolder"})
     public void setImageUrl(ImageView imageView, String url, @DrawableRes int placeHolder) {
-        SimleApplication.getPicasso()
+        SimpleApplication.getPicasso()
                 .load(url)
                 .placeholder(placeHolder)
                 .into(imageView);
     }
     @BindingAdapter(value = {"imgUrl"})
     public void setImageUrl(ImageView imageView, String url) {
-        SimleApplication.getPicasso()
+        SimpleApplication.getPicasso()
                 .load(url)
                 .into(imageView);
     }

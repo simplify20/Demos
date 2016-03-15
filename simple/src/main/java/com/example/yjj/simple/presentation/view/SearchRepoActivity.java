@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -24,13 +23,14 @@ import com.example.yjj.simple.framework.repository.DataCallback;
 import com.example.yjj.simple.framework.repository.impl.DataCallbackAdapter;
 import com.example.yjj.simple.framework.util.DeviceUtil;
 import com.example.yjj.simple.framework.util.ToastUtil;
+import com.example.yjj.simple.presentation.view.common.BaseActivity;
 import com.example.yjj.simple.presentation.viewmodel.RepoViewModel;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
-public class SearchRepoActivity extends AppCompatActivity {
+public class SearchRepoActivity extends BaseActivity {
 
     @Inject
     RepoService repoService;
@@ -42,6 +42,7 @@ public class SearchRepoActivity extends AppCompatActivity {
 
     /**
      * Not recommend do like this,static method is hard to test
+     *
      * @param recyclerView
      * @param repos
      */
@@ -89,24 +90,22 @@ public class SearchRepoActivity extends AppCompatActivity {
         repoService.getRepos(name.toString(), mDataCallback);
     }
 
-
     /**
      * DataCallback
      */
     private class RepoCallback extends DataCallbackAdapter<List<Repo>> {
         @Override
-        public void onError(Throwable e) {
-            super.onError(e);
+        public void postUIError(Throwable e) {
             Toast.makeText(SearchRepoActivity.this, "出错了~", Toast.LENGTH_SHORT);
             progressDialog.dismiss();
         }
 
         @Override
-        public void onSuccess(List<Repo> repos) {
-            super.onSuccess(repos);
+        public void postUISuccess(List<Repo> repos) {
             repoViewModel.addAll(repos);
             progressDialog.dismiss();
         }
+
     }
 
 
