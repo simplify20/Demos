@@ -1,12 +1,11 @@
 package com.example.yjj.simple.data.di.github.producer;
 
-import com.example.yjj.simple.data.datasource.github.ReposDataSource;
+import com.example.yjj.simple.data.datasource.github.RepoDataSource;
 import com.example.yjj.simple.data.entity.github.Repo;
 import com.example.yjj.simple.data.web.api.ApiConstants;
 import com.example.yjj.simple.data.web.api.GitHubApi;
 import com.example.yjj.simple.framework.IParameter;
 import com.example.yjj.simple.framework.datasource.DataFetcher;
-import com.example.yjj.simple.framework.datasource.impl.RequestParameter;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 
@@ -57,13 +56,13 @@ public class GitHubProducer {
     @Produces
     @Named(ApiConstants.ACTION_GET_REPOS)
     DataFetcher<List<Repo>> reposDataFetcher(GitHubApi gitHubApi) {
-        return new ReposDataSource.ReposFetcher(gitHubApi);
+        return new RepoDataSource.RepoFetcher(gitHubApi);
     }
 
     @Produces
     ListenableFuture<List<Repo>> listListenableFuture(@Named(ApiConstants.ACTION_GET_REPOS) final DataFetcher<List<Repo>> dataFetcher) {
         try {
-            return Futures.immediateFuture(dataFetcher.fetchData((RequestParameter) parameter));
+            return Futures.immediateFuture(dataFetcher.fetchData(parameter));
         } catch (Exception e) {
             e.printStackTrace();
         }

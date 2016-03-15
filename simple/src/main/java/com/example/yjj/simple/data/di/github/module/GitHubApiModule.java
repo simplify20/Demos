@@ -7,7 +7,7 @@ import com.example.yjj.simple.biz.github.impl.RepoServiceImpl;
 import com.example.yjj.simple.biz.github.impl.ReposRepository;
 import com.example.yjj.simple.data.datasource.github.ContributorsDataSource;
 import com.example.yjj.simple.data.datasource.github.RepoDaggerDataSource;
-import com.example.yjj.simple.data.datasource.github.ReposDataSource;
+import com.example.yjj.simple.data.datasource.github.RepoDataSource;
 import com.example.yjj.simple.data.di.common.module.ScheduleModule;
 import com.example.yjj.simple.data.entity.github.Contributor;
 import com.example.yjj.simple.data.entity.github.Repo;
@@ -74,7 +74,7 @@ public class GitHubApiModule {
 
     @Provides
     @Named(ApiConstants.ACTION_GET_REPOS)
-    DataFetcher<List<Repo>> reposDataFetcher(ReposDataSource.ReposFetcher reposFetcher) {
+    DataFetcher<List<Repo>> reposDataFetcher(RepoDataSource.RepoFetcher reposFetcher) {
         return reposFetcher;
     }
 
@@ -89,7 +89,7 @@ public class GitHubApiModule {
 
     @Provides
     DataSource<Observable<List<Repo>>> repoDataSource(@Named(ApiConstants.ACTION_GET_REPOS) DataFetcher<List<Repo>> dataFetcher) {
-        return new ReposDataSource(dataFetcher);
+        return new RepoDataSource(dataFetcher);
     }
 
     /**************************************
@@ -117,7 +117,12 @@ public class GitHubApiModule {
     @Provides
     @Named(ApiConstants.ACTION_DAGGER_GET_REPOS)
     BaseRepository repository(@Named(ApiConstants.ACTION_DAGGER_GET_REPOS) DataSource dataSource) {
-        return new BaseDaggerRepository(dataSource);
+        return new BaseDaggerRepository(dataSource) {
+            @Override
+            public Object convert(Object o) {
+                return o;
+            }
+        };
     }
 
     /*************************************

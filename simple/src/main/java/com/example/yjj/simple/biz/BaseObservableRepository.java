@@ -10,6 +10,7 @@ import rx.Observable;
 import rx.Scheduler;
 import rx.Subscriber;
 import rx.Subscription;
+import rx.functions.Func1;
 import rx.subscriptions.CompositeSubscription;
 
 /**
@@ -17,15 +18,15 @@ import rx.subscriptions.CompositeSubscription;
  * @date:2016/3/10
  * @email:yangjianjun@117go.com
  */
-public class BaseObservableRepository<T> extends BaseRepository<T, Subscription> {
+public abstract class BaseObservableRepository<C, S> extends BaseRepository<C, Subscription> {
     private Scheduler postScheduler;
     private Scheduler workScheduler;
     private String TAG = "BaseObservableRepository";
 
-    protected DataSource<Observable<T>> dataSource;
+    protected DataSource<Observable<S>> dataSource;
     protected CompositeSubscription subscriptions = new CompositeSubscription();
 
-    public BaseObservableRepository(Scheduler postScheduler, Scheduler workScheduler, DataSource<Observable<T>> dataSource) {
+    public BaseObservableRepository(Scheduler postScheduler, Scheduler workScheduler, DataSource<Observable<S>> dataSource) {
         this.postScheduler = postScheduler;
         this.workScheduler = workScheduler;
         this.dataSource = dataSource;
@@ -33,10 +34,16 @@ public class BaseObservableRepository<T> extends BaseRepository<T, Subscription>
 
     @Override
     public Subscription getData(IParameter extra, String... values) {
-        Subscription subscription = dataSource.getData(dataSource.buildParameter(extra, values))
+        Subscription subscription = dataSource.getData(extra, values)
                 .subscribeOn(workScheduler)
                 .observeOn(postScheduler)
-                .subscribe(new Subscriber<T>() {
+                .map(new Func1<S, C>() {
+                    @Override
+                    public C call(S s) {
+                        return convert(s);
+                    }
+                })
+                .subscribe(new Subscriber<C>() {
                     @Override
                     public void onCompleted() {
                         if (callback != null)
@@ -50,13 +57,13 @@ public class BaseObservableRepository<T> extends BaseRepository<T, Subscription>
                     }
 
                     @Override
-                    public void onNext(T t) {
+                    public void onNext(C t) {
                         if (callback != null)
                             new DataCallbackAdapter<>(callback).onSuccess(t);
                     }
                 });
         subscriptions.add(subscription);
-        return subscription;
+        return subscriptions;
     }
 
     @Override
@@ -64,5 +71,7 @@ public class BaseObservableRepository<T> extends BaseRepository<T, Subscription>
         if (!subscriptions.isUnsubscribed())
             subscriptions.unsubscribe();
     }
+
+    public abstract C convert(S s);
 
 }

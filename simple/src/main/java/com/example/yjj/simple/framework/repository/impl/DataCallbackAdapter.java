@@ -3,15 +3,17 @@ package com.example.yjj.simple.framework.repository.impl;
 import com.example.yjj.simple.framework.repository.DataCallback;
 
 /**
+ * 参数的定义同DataCallback
+ * 提供了代理的可能
  * @author:YJJ
  * @date:2016/3/10
  * @email:yangjianjun@117go.com
  */
-public class DataCallbackAdapter<T> implements DataCallback<T> {
+public class DataCallbackAdapter<C> implements DataCallback<C> {
 
-    private DataCallback<T> actual;
+    private DataCallback<C> actual;
 
-    public DataCallbackAdapter(DataCallback<T> actual) {
+    public DataCallbackAdapter(DataCallback<C> actual) {
         this.actual = actual;
     }
 
@@ -19,7 +21,7 @@ public class DataCallbackAdapter<T> implements DataCallback<T> {
     }
 
     @Override
-    public void onSuccess(T t) {
+    public void onSuccess(C t) {
         if (actual != null)
             actual.onSuccess(t);
     }

@@ -9,7 +9,7 @@ import com.example.yjj.simple.framework.datasource.DataSource;
  * @date:2016/3/10
  * @email:yangjianjun@117go.com
  */
-public abstract class BaseDataSource<R, T> implements DataSource<T> {
+public abstract class BaseDataSource<R, S> implements DataSource<S> {
 
     protected DataFetcher<R> dataFetcher;
 
@@ -18,29 +18,17 @@ public abstract class BaseDataSource<R, T> implements DataSource<T> {
     }
 
     @Override
-    public T getData(IParameter parameter) {
-        return convert(parameter);
+    public S getData(IParameter extra, String... values) {
+        return handleRequest(extra, values);
     }
 
     @Override
     public void close() {
-        dataFetcher.close();
+        if (dataFetcher != null)
+            dataFetcher.close();
     }
 
-    @Override
-    public IParameter buildParameter(IParameter extra, String... values) {
-        RequestParameter requestParameter;
-        if (extra != null && extra instanceof RequestParameter) {
-            requestParameter = (RequestParameter) extra;
-        } else {
-            requestParameter = new RequestParameter();
-        }
-        if (values == null || values.length == 0)
-            return requestParameter;
-        return requestParameter;
-    }
-
-    public abstract T convert(IParameter requestParameter);
+    public abstract S handleRequest(IParameter extra, String... values);
 
 
 }

@@ -17,10 +17,15 @@ import rx.Scheduler;
  * @date:2016/3/9
  * @email:yangjianjun@117go.com
  */
-public class ReposRepository extends BaseObservableRepository<List<Repo>> {
+public class ReposRepository extends BaseObservableRepository<List<Repo>, List<Repo>> {
 
     @Inject
     public ReposRepository(@Named("post") Scheduler postScheduler, @Named("work") Scheduler workScheduler, DataSource<Observable<List<Repo>>> dataSource) {
         super(postScheduler, workScheduler, dataSource);
+    }
+
+    @Override
+    public List<Repo> convert(List<Repo> repos) {
+        return repos;
     }
 }

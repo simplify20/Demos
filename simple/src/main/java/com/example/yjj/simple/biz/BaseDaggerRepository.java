@@ -13,24 +13,24 @@ import com.google.common.util.concurrent.ListenableFuture;
  * @date:2016/3/14
  * @email:yangjianjun@117go.com
  */
-public class BaseDaggerRepository<T> extends BaseRepository<T, ListenableFuture<T>> {
+public abstract class BaseDaggerRepository<C, S> extends BaseRepository<C, ListenableFuture<S>> {
 
     private String TAG = "DaggerBaseRepository";
-    private DataSource<ListenableFuture<T>> dataSource;
+    private DataSource<ListenableFuture<S>> dataSource;
 
-    public BaseDaggerRepository(DataSource<ListenableFuture<T>> dataSource) {
+    public BaseDaggerRepository(DataSource<ListenableFuture<S>> dataSource) {
         this.dataSource = dataSource;
     }
 
     @Override
-    public ListenableFuture<T> getData(IParameter extra, String... values) {
-        ListenableFuture<T> listenableFuture = dataSource.getData(dataSource.buildParameter(extra, values));
-        Futures.addCallback(listenableFuture, new FutureCallback<T>() {
+    public ListenableFuture<S> getData(IParameter extra, String... values) {
+        ListenableFuture<S> listenableFuture = dataSource.getData(extra, values);
+        Futures.addCallback(listenableFuture, new FutureCallback<S>() {
             @Override
-            public void onSuccess(T result) {
+            public void onSuccess(S result) {
                 if (callback != null) {
-                    DataCallbackAdapter dataCallbackAdapter = new DataCallbackAdapter<>(callback);
-                    dataCallbackAdapter.onSuccess(result);
+                    DataCallbackAdapter<C> dataCallbackAdapter = new DataCallbackAdapter<>(callback);
+                    dataCallbackAdapter.onSuccess(convert(result));
                     dataCallbackAdapter.onComplete();
                 }
             }
@@ -45,6 +45,8 @@ public class BaseDaggerRepository<T> extends BaseRepository<T, ListenableFuture<
         });
         return listenableFuture;
     }
+
+    public abstract C convert(S s);
 
     @Override
     public void close() {
