@@ -1,21 +1,16 @@
 package com.example.yjj.simple.data.di.github.producer;
 
-import com.example.yjj.simple.data.datasource.github.RepoDataSource;
 import com.example.yjj.simple.data.entity.github.Repo;
-import com.example.yjj.simple.data.web.api.ApiConstants;
 import com.example.yjj.simple.data.web.api.GitHubApi;
 import com.example.yjj.simple.framework.IParameter;
-import com.example.yjj.simple.framework.datasource.DataFetcher;
-import com.google.common.util.concurrent.Futures;
-import com.google.common.util.concurrent.ListenableFuture;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Named;
 
 import dagger.producers.ProducerModule;
 import dagger.producers.Produces;
+import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -54,21 +49,22 @@ public class GitHubProducer {
     }
 
     @Produces
-    @Named(ApiConstants.ACTION_GET_REPOS)
-    DataFetcher<List<Repo>> reposDataFetcher(GitHubApi gitHubApi) {
-        return new RepoDataSource.RepoFetcher(gitHubApi);
+    List<Repo> getRepos(GitHubApi api) throws Exception {
+        Call<List<Repo>> call = api.listRepos(parameter.get("user"));
+        List<Repo> result = call.execute().body();
+        return result;
     }
 
-    @Produces
-    ListenableFuture<List<Repo>> listListenableFuture(@Named(ApiConstants.ACTION_GET_REPOS) final DataFetcher<List<Repo>> dataFetcher) {
-        try {
-            return Futures.immediateFuture(dataFetcher.fetchData(parameter));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        List<Repo> empty = new ArrayList();
-        return Futures.immediateFuture(empty);
-    }
+//    @Produces
+//    ListenableFuture<List<Repo>> listListenableFuture(@Named(ApiConstants.ACTION_GET_REPOS) final DataFetcher<List<Repo>> dataFetcher) {
+//        try {
+//            return Futures.immediateFuture(dataFetcher.fetchData(parameter));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        List<Repo> empty = new ArrayList();
+//        return Futures.immediateFuture(empty);
+//    }
 
 //    @Produces
 //    DataFetcher<ListenableFuture<List<Repo>>> listenFecter(@Named(ApiConstants.ACTION_GET_REPOS) final DataFetcher<List<Repo>> dataFetcher) {

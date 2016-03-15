@@ -30,5 +30,4 @@ public abstract class BaseDataSource<R, S> implements DataSource<S> {
 
     public abstract S handleRequest(IParameter extra, String... values);
 
-
 }

@@ -6,7 +6,7 @@ import com.example.yjj.simple.data.di.github.producer.GitHubProducer;
 import com.example.yjj.simple.data.entity.github.Repo;
 import com.example.yjj.simple.data.web.api.ApiConstants;
 import com.example.yjj.simple.framework.IParameter;
-import com.example.yjj.simple.framework.ParameterFactory;
+import com.example.yjj.simple.framework.datasource.DataFetcher;
 import com.example.yjj.simple.framework.datasource.impl.RequestParameter;
 import com.google.common.util.concurrent.ListenableFuture;
 
@@ -24,32 +24,43 @@ import javax.inject.Named;
 public class RepoDaggerDataSource extends BaseDaggerDataSource<List<Repo>> {
 
     @Inject
-    public RepoDaggerDataSource(@Named(ApiConstants.SCHEDULE_EXECUTOR_SINGLE_THREAD) Executor executor) {
-        super(executor, null);
+    public RepoDaggerDataSource(@Named(ApiConstants.DAGGER_REPO_FETCHER) DataFetcher<ListenableFuture<List<Repo>>> dataFetcher) {
+        super(dataFetcher);
     }
 
-    @Override
-    public ListenableFuture<List<Repo>> getData(IParameter extra, String... values) {
-        return DaggerRepoProducerComponent.builder()
-                .gitHubProducer(new GitHubProducer(RepoParameterFactoryImpl.INSTANCE.create(extra, values)))
-                .executor(executor)
-                .build()
-                .getRepo();
-    }
 
-    public enum RepoParameterFactoryImpl implements ParameterFactory {
-        INSTANCE;
+    public static class DaggerRepoFetcher implements DataFetcher<ListenableFuture<List<Repo>>> {
+        private Executor executor;
+
+        @Inject
+        public DaggerRepoFetcher(@Named(ApiConstants.SCHEDULE_EXECUTOR_SINGLE_THREAD) Executor executor) {
+            this.executor = executor;
+        }
+
+        @Override
+        public ListenableFuture<List<Repo>> fetchData(IParameter extra, String... values) throws Exception {
+            return DaggerRepoProducerComponent.builder()
+                    .gitHubProducer(new GitHubProducer(create(extra, values)))
+                    .executor(executor)
+                    .build()
+                    .getRepo();
+        }
 
         @Override
         public IParameter create(IParameter extra, String... values) {
             RequestParameter requestParameter;
-            if (extra != null)
+            if (extra != null) {
                 requestParameter = (RequestParameter) extra;
-            else
+            } else {
                 requestParameter = new RequestParameter();
-            if (values != null && values.length > 0)
-                requestParameter.put("user", values[0]);
+            }
+            requestParameter.put("user", values[0]);
             return requestParameter;
+        }
+
+        @Override
+        public void close() {
+
         }
     }
 }

@@ -15,4 +15,5 @@ public final class ApiConstants {
 
 
     public static final String SCHEDULE_EXECUTOR_SINGLE_THREAD = "executor_single_thread_pool";
+    public static final String DAGGER_REPO_FETCHER = "dagger_repo_fetcher";
 }

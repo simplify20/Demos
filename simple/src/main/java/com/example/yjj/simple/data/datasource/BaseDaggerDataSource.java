@@ -5,8 +5,6 @@ import com.example.yjj.simple.framework.datasource.DataFetcher;
 import com.example.yjj.simple.framework.datasource.impl.BaseDataSource;
 import com.google.common.util.concurrent.ListenableFuture;
 
-import java.util.concurrent.Executor;
-
 /**
  * @author:YJJ
  * @date:2016/3/14
@@ -14,11 +12,9 @@ import java.util.concurrent.Executor;
  */
 public abstract class BaseDaggerDataSource<T> extends BaseDataSource<ListenableFuture<T>, ListenableFuture<T>> {
 
-    protected Executor executor;
 
-    public BaseDaggerDataSource(Executor executor, DataFetcher<ListenableFuture<T>> dataFetcher) {
+    public BaseDaggerDataSource(DataFetcher<ListenableFuture<T>> dataFetcher) {
         super(dataFetcher);
-        this.executor = executor;
     }
 
     @Override

@@ -16,6 +16,7 @@ import com.example.yjj.simple.data.web.api.GitHubApi;
 import com.example.yjj.simple.framework.datasource.DataFetcher;
 import com.example.yjj.simple.framework.datasource.DataSource;
 import com.example.yjj.simple.framework.repository.impl.BaseRepository;
+import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.List;
 
@@ -111,6 +112,12 @@ public class GitHubApiModule {
     /**************************************
      * Dagger test
      **************************************/
+    @Provides
+    @Named(ApiConstants.DAGGER_REPO_FETCHER)
+    DataFetcher<ListenableFuture<List<Repo>>> daggerRepoFetcher(RepoDaggerDataSource.DaggerRepoFetcher daggerRepoFetcher) {
+        return daggerRepoFetcher;
+    }
+
     @Provides
     @Named(ApiConstants.ACTION_DAGGER_GET_REPOS)
     DataSource daggerRepoDataSource(RepoDaggerDataSource daggerDataSource) {
