@@ -82,6 +82,11 @@ public abstract class BaseObservableRepository<C, S> extends BaseRepository<C, S
         }
     }
 
+    @Override
+    public boolean isClose() {
+        return false;
+    }
+
     public abstract C convert(S s);
 
 }

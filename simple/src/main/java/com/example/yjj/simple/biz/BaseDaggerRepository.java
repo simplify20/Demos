@@ -66,5 +66,10 @@ public abstract class BaseDaggerRepository<C, S> extends BaseRepository<C, Liste
             dataSource.close();
     }
 
+    @Override
+    public boolean isClose() {
+        return false;
+    }
+
     public abstract C convert(S s);
 }

@@ -6,6 +6,7 @@ import com.example.yjj.simple.biz.github.impl.RepoRepository;
 import com.example.yjj.simple.biz.github.impl.RepoServiceImpl;
 import com.example.yjj.simple.data.datasource.github.RepoDaggerDataSource;
 import com.example.yjj.simple.data.datasource.github.RepoDataSource;
+import com.example.yjj.simple.data.datasource.github.TestRepoDataSource;
 import com.example.yjj.simple.data.di.common.ActivityScope;
 import com.example.yjj.simple.data.di.common.module.ExecutorModule;
 import com.example.yjj.simple.data.di.github.producer.GitHubProducer;
@@ -77,10 +78,17 @@ public class RepoModule {
     }
 
     @ActivityScope
+    @Named(QualifierConstants.PROVIDE_REPO_DATA_FILE_FETCHER_DAGGER)
+    @Provides
+    DataFetcher daggerRepoFileFetcher(TestRepoDataSource.TestFileSystemFetcher daggerRepoFetcher) {
+        return daggerRepoFetcher;
+    }
+
+    @ActivityScope
     @Provides
     @Named(QualifierConstants.PROVIDE_REPO_DATA_SOURCE_GUAVA)
-    DataSource daggerRepoDataSource(RepoDaggerDataSource daggerDataSource) {
-        return daggerDataSource;
+    DataSource daggerRepoDataSource(@Named(QualifierConstants.PROVIDE_REPO_DATA_FILE_FETCHER_DAGGER) DataFetcher fileDataFetcher, @Named(QualifierConstants.PROVIDE_REPO_DATA_FETCHER_DAGGER) DataFetcher netWorkFetcher) {
+        return new TestRepoDataSource(fileDataFetcher,netWorkFetcher);
     }
 
     @ActivityScope

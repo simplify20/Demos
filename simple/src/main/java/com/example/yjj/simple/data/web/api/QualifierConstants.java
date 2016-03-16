@@ -24,7 +24,7 @@ public final class QualifierConstants {
     public static final String PROVIDE_POST_SCHEDULE = "post_schedule";
     public static final String PROVIDE_WORK_SCHEDULE = "work_schedule";
     public static final String PROVIDE_REPO_DATA_FETCHER_DAGGER = "dagger_repo_fetcher";
-
+    public static final String PROVIDE_REPO_DATA_FILE_FETCHER_DAGGER = "dagger_repo_file_fetcher";
     /**
      * remove Generic Parameters to reduce invasion
      */
