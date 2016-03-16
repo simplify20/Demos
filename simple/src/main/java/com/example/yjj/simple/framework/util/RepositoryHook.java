@@ -12,11 +12,7 @@ import com.example.yjj.simple.framework.repository.Repository;
  * @date:2016/3/15
  * @email:yangjianjun@117go.com
  */
-public class RepositoryHook {
-
-    public static RepositoryHook getInstance() {
-        return new RepositoryHook();
-    }
+public abstract class RepositoryHook {
 
     public void onRepositoryConstruct(Repository repository) {
         Activity topActivity = SimpleApplication.topActivity;

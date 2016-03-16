@@ -8,4 +8,5 @@ package com.example.yjj.simple.framework;
 public interface Closeable {
 
     void close();
+    boolean isClose();
 }

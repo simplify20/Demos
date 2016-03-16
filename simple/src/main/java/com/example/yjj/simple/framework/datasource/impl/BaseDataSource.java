@@ -1,7 +1,7 @@
 package com.example.yjj.simple.framework.datasource.impl;
 
-import com.example.yjj.simple.framework.datasource.DataFetcher;
 import com.example.yjj.simple.framework.IParameter;
+import com.example.yjj.simple.framework.datasource.DataFetcher;
 import com.example.yjj.simple.framework.datasource.DataSource;
 
 /**
@@ -12,6 +12,7 @@ import com.example.yjj.simple.framework.datasource.DataSource;
 public abstract class BaseDataSource<R, S> implements DataSource<S> {
 
     protected DataFetcher<R> dataFetcher;
+    private volatile boolean isClose;
 
     public BaseDataSource(DataFetcher<R> dataFetcher) {
         this.dataFetcher = dataFetcher;
@@ -24,8 +25,20 @@ public abstract class BaseDataSource<R, S> implements DataSource<S> {
 
     @Override
     public void close() {
-        if (dataFetcher != null)
-            dataFetcher.close();
+        if (!isClose) {
+            synchronized (this) {
+                if (isClose)
+                    return;
+                isClose = true;
+                if (dataFetcher != null)
+                    dataFetcher.close();
+            }
+        }
+    }
+
+    @Override
+    public boolean isClose() {
+        return isClose;
     }
 
     public abstract S handleRequest(IParameter extra, String... values);

@@ -14,7 +14,6 @@ import rx.Subscriber;
  */
 public abstract class BaseObservableDataSource<R, S> extends BaseDataSource<R, Observable<S>> {
 
-
     public BaseObservableDataSource(DataFetcher<R> dataFetcher) {
         super(dataFetcher);
     }

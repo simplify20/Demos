@@ -1,6 +1,7 @@
 package com.example.yjj.simple.framework.repository.impl;
 
 import com.example.yjj.simple.framework.IParameter;
+import com.example.yjj.simple.framework.SimplePlugins;
 import com.example.yjj.simple.framework.repository.DataCallback;
 import com.example.yjj.simple.framework.repository.Repository;
 import com.example.yjj.simple.framework.util.RepositoryHook;
@@ -15,7 +16,7 @@ import com.example.yjj.simple.framework.util.RepositoryHook;
 public abstract class BaseRepository<C, S> implements Repository<C, S> {
 
     protected DataCallback<C> callback;
-    private RepositoryHook repositoryHook = RepositoryHook.getInstance();
+    private RepositoryHook repositoryHook = SimplePlugins.getInstance().getRepositoryHook();
 
     public BaseRepository() {
         repositoryHook.onRepositoryConstruct(this);

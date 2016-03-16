@@ -21,7 +21,6 @@ public class RepoRepository extends BaseObservableRepository<List<Repo>, List<Re
     public RepoRepository(@Named(QualifierConstants.PROVIDE_REPO_DATA_SOURCE_RX)DataSource dataSource) {
         super(dataSource);
     }
-
     @Override
     public List<Repo> convert(List<Repo> repos) {
         return repos;

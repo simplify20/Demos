@@ -12,6 +12,7 @@ import com.example.yjj.simple.framework.datasource.DataFetcher;
  * @email:yangjianjun@117go.com
  */
 public abstract class BaseDataFetcher<R> implements DataFetcher<R> {
+
     protected ParameterFactory parameterFactory;
 
     public BaseDataFetcher(ParameterFactory parameterFactory) {
@@ -39,6 +40,11 @@ public abstract class BaseDataFetcher<R> implements DataFetcher<R> {
             return requestParameter;
         }
         return putValues(requestParameter, values);
+    }
+
+    @Override
+    public boolean isClose() {
+        return false;
     }
 
     public abstract IParameter putValues(@NonNull IParameter<String, String> extra, @NonNull String... values);
