@@ -29,7 +29,8 @@ public class RepoViewModel {
 
     public void addAll(List<Repo> repos) {
         observableRepoList.clear();
-        observableRepoList.addAll(repos);
+        if (repos != null)
+            observableRepoList.addAll(repos);
         isEmpty.set(observableRepoList.isEmpty());
     }
 }

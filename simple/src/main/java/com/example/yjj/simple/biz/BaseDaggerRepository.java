@@ -62,9 +62,9 @@ public abstract class BaseDaggerRepository<C, S> extends BaseRepository<C, Liste
     @Override
     public void close() {
         super.close();
-        if (mFuture != null && !mFuture.isCancelled()) {
-            mFuture.cancel(true);
-        }
+        if (dataSource != null)
+            dataSource.close();
     }
+
     public abstract C convert(S s);
 }

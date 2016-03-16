@@ -40,6 +40,9 @@ public class SimpleApplication extends Application {
         initPicasso();
     }
 
+    public static ApplicationComponent getApplicationComponent() {
+        return applicationComponent;
+    }
 
     public static Context getContext() {
         if (context == null) {

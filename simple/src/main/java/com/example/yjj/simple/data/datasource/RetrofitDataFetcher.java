@@ -1,9 +1,6 @@
 package com.example.yjj.simple.data.datasource;
 
-import com.example.yjj.simple.framework.IParameter;
-import com.example.yjj.simple.framework.ParameterFactory;
-import com.example.yjj.simple.framework.datasource.DataFetcher;
-import com.example.yjj.simple.framework.datasource.impl.RequestParameter;
+import com.example.yjj.simple.framework.datasource.impl.BaseDataFetcher;
 
 import retrofit2.Call;
 
@@ -12,21 +9,14 @@ import retrofit2.Call;
  * @date:2016/3/10
  * @email:yangjianjun@117go.com
  */
-public abstract class RetrofitDataFetcher<R> implements DataFetcher<R> {
+public abstract class RetrofitDataFetcher<R> extends BaseDataFetcher<R> {
     protected Call<R> call;
-    protected ParameterFactory parameterFactory;
-
-    public RetrofitDataFetcher(ParameterFactory parameterFactory) {
-        this.parameterFactory = parameterFactory;
-    }
 
     public RetrofitDataFetcher(Call<R> call) {
         this.call = call;
-        this.parameterFactory = this;
     }
 
     public RetrofitDataFetcher() {
-        this.parameterFactory = this;
     }
 
     public Call<R> getCall() {
@@ -36,36 +26,12 @@ public abstract class RetrofitDataFetcher<R> implements DataFetcher<R> {
     public void setCall(Call<R> call) {
         this.call = call;
     }
-
-    @Override
-    public R fetchData(IParameter extra, String... values) throws Exception {
-        return fetchDataImpl((RequestParameter) parameterFactory.create(extra, values));
-    }
-
     /**
-     * @param extra
-     * @param values
-     * @return
+     * Subclass don't need to implements this method
      */
-    @Override
-    public RequestParameter create(IParameter extra, String... values) {
-        RequestParameter requestParameter;
-        if (extra != null) {
-            requestParameter = (RequestParameter) extra;
-        } else {
-            requestParameter = new RequestParameter();
-        }
-        putValues(requestParameter, values);
-        return requestParameter;
-    }
-
     @Override
     public void close() {
         if (call != null)
             call.cancel();
     }
-
-    public abstract R fetchDataImpl(RequestParameter requestParameter) throws Exception;
-
-    public abstract void putValues(RequestParameter parameter, String... values);
 }

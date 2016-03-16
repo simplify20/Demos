@@ -1,16 +1,14 @@
 package com.example.yjj.simple.biz.github.impl;
 
-import com.example.yjj.simple.framework.datasource.DataSource;
 import com.example.yjj.simple.biz.BaseObservableRepository;
 import com.example.yjj.simple.data.entity.github.Contributor;
+import com.example.yjj.simple.data.web.api.QualifierConstants;
+import com.example.yjj.simple.framework.datasource.DataSource;
 
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import rx.Observable;
-import rx.Scheduler;
 
 /**
  * @author:YJJ
@@ -20,8 +18,8 @@ import rx.Scheduler;
 public class ContributorsRepository extends BaseObservableRepository<List<Contributor>,List<Contributor>> {
 
     @Inject
-    public ContributorsRepository(@Named("post") Scheduler postScheduler, @Named("work") Scheduler workScheduler, DataSource<Observable<List<Contributor>>> dataSource) {
-        super(postScheduler, workScheduler, dataSource);
+    public ContributorsRepository( @Named(QualifierConstants.PROVIDE_CONTRIBUTOR_DATA_SOURCE_RX)DataSource dataSource) {
+        super(dataSource);
     }
 
     @Override

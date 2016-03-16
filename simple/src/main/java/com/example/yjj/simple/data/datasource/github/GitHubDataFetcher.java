@@ -1,8 +1,10 @@
 package com.example.yjj.simple.data.datasource.github;
 
+import android.support.annotation.NonNull;
+
 import com.example.yjj.simple.data.datasource.RetrofitDataFetcher;
 import com.example.yjj.simple.data.web.api.GitHubApi;
-import com.example.yjj.simple.framework.datasource.impl.RequestParameter;
+import com.example.yjj.simple.framework.IParameter;
 
 /**
  * @author:YJJ
@@ -20,11 +22,12 @@ public abstract class GitHubDataFetcher<R> extends RetrofitDataFetcher<R> {
 
     /**
      * default impl of putValues,do nothing
+     *
      * @param parameter
      * @param values
      */
     @Override
-    public void putValues(RequestParameter parameter, String... values) {
-
+    public IParameter putValues(@NonNull IParameter<String,String> parameter, @NonNull String... values) {
+        return parameter;
     }
 }

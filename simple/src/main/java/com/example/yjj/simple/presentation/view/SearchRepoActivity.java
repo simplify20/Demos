@@ -13,9 +13,9 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.yjj.simple.R;
+import com.example.yjj.simple.SimpleApplication;
 import com.example.yjj.simple.biz.github.RepoService;
-import com.example.yjj.simple.data.di.github.component.DaggerGitHubComponent;
-import com.example.yjj.simple.data.di.github.component.DaggerSearchRepoComponent;
+import com.example.yjj.simple.data.di.github.component.DaggerRepoComponent;
 import com.example.yjj.simple.data.entity.github.Repo;
 import com.example.yjj.simple.databinding.ActivityRepoSearchBinding;
 import com.example.yjj.simple.databinding.CellRepoBinding;
@@ -74,9 +74,11 @@ public class SearchRepoActivity extends BaseActivity {
     }
 
     private void injectDepens() {
-        DaggerSearchRepoComponent.builder()
-                .gitHubComponent(DaggerGitHubComponent.builder().build())
-                .build().inject(this);
+        DaggerRepoComponent
+                .builder()
+                .applicationComponent(SimpleApplication.getApplicationComponent())
+                .build()
+                .inject(this);
     }
 
 

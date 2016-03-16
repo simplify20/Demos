@@ -1,5 +1,6 @@
 package com.example.yjj.simple.data.di.common.module;
 
+import com.example.yjj.simple.data.di.common.ActivityScope;
 import com.example.yjj.simple.presentation.bindingadapter.ImageAdapter;
 
 import dagger.Module;
@@ -12,7 +13,7 @@ import dagger.Provides;
  */
 @Module
 public class ProductionModule {
-
+    @ActivityScope
     @Provides
     ImageAdapter imageAdapter() {
         return new ImageAdapter();

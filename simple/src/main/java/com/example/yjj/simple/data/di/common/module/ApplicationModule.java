@@ -2,9 +2,8 @@ package com.example.yjj.simple.data.di.common.module;
 
 import android.content.Context;
 
+import com.example.yjj.simple.data.di.common.ApplicationScope;
 import com.example.yjj.simple.framework.repository.impl.RepositoryManager;
-
-import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -23,13 +22,13 @@ public class ApplicationModule {
     }
 
     @Provides
-    @Singleton
+    @ApplicationScope
     Context context() {
         return context;
     }
 
     @Provides
-    @Singleton
+    @ApplicationScope
     RepositoryManager repositoryManager() {
         return new RepositoryManager();
     }

@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.example.yjj.simple.framework.IParameter;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -23,7 +24,6 @@ public class RequestParameter implements IParameter<String, String> {
         result.setAction(action);
         return result;
     }
-
     /**
      * use to construct a Parameter
      */
@@ -40,7 +40,6 @@ public class RequestParameter implements IParameter<String, String> {
         return !TextUtils.isEmpty(action);
     }
 
-
     public final String getAction() {
         return action;
     }
@@ -54,13 +53,23 @@ public class RequestParameter implements IParameter<String, String> {
         keyValues.put(key, value);
     }
 
+    /**
+     * safe return
+     * @param key
+     * @return
+     */
     @Override
     public String get(String key) {
-        return keyValues.get(key);
+        String val = keyValues.get(key);
+        if (val == null)
+            return "";
+        return val;
     }
 
     @Override
     public void putAll(Map<String, String> putMap) {
+        if(putMap==null)
+            putMap = new HashMap<>();
         keyValues.putAll(putMap);
     }
 
@@ -75,6 +84,5 @@ public class RequestParameter implements IParameter<String, String> {
             putAll(added.getAll());
         return this;
     }
-
 
 }

@@ -1,6 +1,8 @@
 package com.example.yjj.simple.biz;
 
 
+import com.example.yjj.simple.SimpleApplication;
+import com.example.yjj.simple.data.di.common.component.ApplicationComponent;
 import com.example.yjj.simple.framework.IParameter;
 import com.example.yjj.simple.framework.datasource.DataSource;
 import com.example.yjj.simple.framework.repository.impl.BaseRepository;
@@ -18,17 +20,18 @@ import rx.subscriptions.CompositeSubscription;
  * @email:yangjianjun@117go.com
  */
 public abstract class BaseObservableRepository<C, S> extends BaseRepository<C, Subscription> {
-    private Scheduler postScheduler;
-    private Scheduler workScheduler;
-    private String TAG = "BaseObservableRepository";
-
     protected DataSource<Observable<S>> dataSource;
     protected CompositeSubscription subscriptions = new CompositeSubscription();
 
-    public BaseObservableRepository(Scheduler postScheduler, Scheduler workScheduler, DataSource<Observable<S>> dataSource) {
-        this.postScheduler = postScheduler;
-        this.workScheduler = workScheduler;
+    private static String TAG = "BaseObservableRepository";
+    private Scheduler postScheduler;
+    private Scheduler workScheduler;
+
+    public BaseObservableRepository(DataSource<Observable<S>> dataSource) {
         this.dataSource = dataSource;
+        ApplicationComponent applicationComponent = SimpleApplication.getApplicationComponent();
+        this.postScheduler = applicationComponent.getPostScheduler();
+        this.workScheduler = applicationComponent.getWorkScheduler();
     }
 
     @Override
@@ -74,6 +77,9 @@ public abstract class BaseObservableRepository<C, S> extends BaseRepository<C, S
         super.close();
         if (!subscriptions.isUnsubscribed())
             subscriptions.unsubscribe();
+        if (dataSource != null) {
+            dataSource.close();
+        }
     }
 
     public abstract C convert(S s);

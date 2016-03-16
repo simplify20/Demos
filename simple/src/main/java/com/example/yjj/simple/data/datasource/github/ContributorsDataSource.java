@@ -1,8 +1,11 @@
 package com.example.yjj.simple.data.datasource.github;
 
+import android.support.annotation.NonNull;
+
 import com.example.yjj.simple.data.datasource.BaseObservableDataSource;
 import com.example.yjj.simple.data.entity.github.Contributor;
 import com.example.yjj.simple.data.web.api.GitHubApi;
+import com.example.yjj.simple.framework.IParameter;
 import com.example.yjj.simple.framework.datasource.DataFetcher;
 import com.example.yjj.simple.framework.datasource.impl.RequestParameter;
 
@@ -35,16 +38,22 @@ public class ContributorsDataSource extends BaseObservableDataSource<List<Contri
         }
 
         @Override
-        public List<Contributor> fetchDataImpl(RequestParameter parameter) throws Exception {
+        public List<Contributor> fetchDataImpl(@NonNull RequestParameter parameter) throws Exception {
             call = gitHubApi.contributors(parameter.get("owner"), parameter.get("repo"));
             List<Contributor> result = call.execute().body();
             return result;
         }
 
         @Override
-        public void putValues(RequestParameter parameter, String... values) {
-            parameter.put("owner", values[0]);
-            parameter.put("repo", values[1]);
+        public IParameter<String, String> putValues(@NonNull IParameter<String, String> parameter, @NonNull String... values) {
+            if (values.length >= 2) {
+                parameter.put("owner", values[0]);
+                parameter.put("repo", values[1]);
+            } else {
+                throw new IllegalArgumentException("parameters' length is not correct,need 2 but " + values.length);
+            }
+            return parameter;
+
         }
     }
 }

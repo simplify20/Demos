@@ -1,9 +1,7 @@
 package com.example.yjj.simple.data.di.common.module;
 
-import com.example.yjj.simple.data.web.api.ApiConstants;
-
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
+import com.example.yjj.simple.data.di.common.ApplicationScope;
+import com.example.yjj.simple.data.web.api.QualifierConstants;
 
 import javax.inject.Named;
 
@@ -20,21 +18,18 @@ import rx.schedulers.Schedulers;
  */
 @Module
 public class ScheduleModule {
+    @ApplicationScope
     @Provides
-    @Named("post")
+    @Named(QualifierConstants.PROVIDE_POST_SCHEDULE)
     Scheduler postScheduler() {
         return AndroidSchedulers.mainThread();
     }
 
+    @ApplicationScope
     @Provides
-    @Named("work")
+    @Named(QualifierConstants.PROVIDE_WORK_SCHEDULE)
     Scheduler workScheduler() {
         return Schedulers.newThread();
     }
 
-    @Provides
-    @Named(ApiConstants.SCHEDULE_EXECUTOR_SINGLE_THREAD)
-    Executor workExecutor() {
-        return Executors.newSingleThreadExecutor();
-    }
 }

@@ -2,10 +2,13 @@ package com.example.yjj.simple.biz.github.impl;
 
 import com.example.yjj.simple.biz.BaseDaggerRepository;
 import com.example.yjj.simple.data.entity.github.Repo;
+import com.example.yjj.simple.data.web.api.QualifierConstants;
 import com.example.yjj.simple.framework.datasource.DataSource;
-import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.List;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  * @author:YJJ
@@ -13,7 +16,8 @@ import java.util.List;
  * @email:yangjianjun@117go.com
  */
 public class DaggerRepoRepository extends BaseDaggerRepository<List<Repo>,List<Repo>> {
-    public DaggerRepoRepository(DataSource<ListenableFuture<List<Repo>>> dataSource) {
+    @Inject
+    public DaggerRepoRepository(@Named(QualifierConstants.PROVIDE_REPO_DATA_SOURCE_GUAVA)DataSource dataSource) {
         super(dataSource);
     }
 
